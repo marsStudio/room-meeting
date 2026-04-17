@@ -1,1268 +1,933 @@
-
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MeetSpace</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MeetSpace</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--b:#1041D4;--b1:#1a4de8;--b2:#EEF2FF;--b3:#C7D2FE;
+--n:#060E2D;--n2:#1B2654;
+--bg:#F1F4FB;--w:#fff;--s:#F7F9FD;
+--tx:#0D1B40;--tx2:#495580;--tx3:#8E99BB;
+--bd:#E2E8F6;--bd2:#C5CFEB;
+--g:#16A34A;--gl:#DCFCE7;--g2:#15803D;
+--a:#D97706;--al:#FEF3C7;--a2:#B45309;
+--r:#DC2626;--rl:#FEE2E2;--r2:#991B1B;
+--t:#0891B2;--tl:#E0F2FE;
+--rad:10px;--radl:14px;--radxl:20px;
+--f:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace;
+--sh:0 1px 6px rgba(16,65,212,.07);--shm:0 6px 24px rgba(16,65,212,.13);
+}
+*{font-family:var(--f)}
+body{background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5;min-height:100vh}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:4px}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ═══ SCREENS ═══ */
+.sc{display:none;min-height:100vh}
+.sc.on{display:flex}
 
-  :root {
-    --brand: #2563EB;
-    --brand-light: #EFF6FF;
-    --brand-border: #BFDBFE;
-    --success: #16A34A;
-    --success-light: #F0FDF4;
-    --warn: #D97706;
-    --warn-light: #FFFBEB;
-    --danger: #DC2626;
-    --danger-light: #FEF2F2;
-    --gray-50: #F8FAFC;
-    --gray-100: #F1F5F9;
-    --gray-200: #E2E8F0;
-    --gray-300: #CBD5E1;
-    --gray-400: #94A3B8;
-    --gray-500: #64748B;
-    --gray-600: #475569;
-    --gray-700: #334155;
-    --gray-800: #1E293B;
-    --gray-900: #0F172A;
-    --radius: 10px;
-    --radius-sm: 6px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-  }
+/* ═══ LOGIN ═══ */
+#scL,#scTL{align-items:center;justify-content:center;padding:1rem}
+#scL{background:linear-gradient(135deg,#EEF2FF 0%,#F1F4FB 55%,#E0F9FA 100%)}
+#scTL{background:linear-gradient(135deg,#0C1A5C 0%,#1041D4 50%,#0891B2 100%)}
+.lcard{background:var(--w);border-radius:var(--radxl);padding:2.5rem;width:100%;max-width:420px;border:1px solid var(--bd);box-shadow:var(--shm)}
+.tlcard{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:var(--radxl);padding:2.5rem;width:100%;max-width:420px;backdrop-filter:blur(12px)}
+.tl-brand .bname{color:#fff}
+.tl-brand .btag{color:rgba(255,255,255,.6)}
+.tlcard .lt{color:#fff}
+.tlcard .ls{color:rgba(255,255,255,.65)}
+.tlcard .fl label{color:rgba(255,255,255,.8)}
+.tlcard .fi{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:#fff}
+.tlcard .fi::placeholder{color:rgba(255,255,255,.4)}
+.tlcard .fi:focus{border-color:rgba(255,255,255,.7);box-shadow:0 0 0 3px rgba(255,255,255,.1)}
+.tl-sub{font-size:12px;color:rgba(255,255,255,.5);text-align:center;margin-top:1rem}
+.tl-sub span{color:rgba(255,255,255,.8);cursor:pointer;text-decoration:underline}
+.brand{display:flex;align-items:center;gap:11px;margin-bottom:1.75rem}
+.bico{width:40px;height:40px;background:var(--b);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bico svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2}
+.bname{font-size:18px;font-weight:700;color:var(--n)}
+.btag{font-size:11px;color:var(--tx3)}
+.lt{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.ls{font-size:13px;color:var(--tx3);margin-bottom:1.5rem}
+.fl{margin-bottom:1rem}
+.fl label{display:block;font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:5px}
+.fi{width:100%;padding:10px 14px;border:1.5px solid var(--bd);border-radius:var(--rad);font-size:14px;color:var(--tx);outline:none;transition:.2s;background:var(--w)}
+.fi:focus{border-color:var(--b);box-shadow:0 0 0 3px rgba(16,65,212,.09)}
+select.fi{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238E99BB' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
+.blo{width:100%;padding:12px;background:var(--b);color:#fff;border:none;border-radius:var(--rad);font-size:14px;font-weight:600;cursor:pointer;transition:.15s}
+.blo:hover{background:var(--b1)}
+.tl-blo{background:rgba(255,255,255,.9);color:var(--b)}
+.tl-blo:hover{background:#fff}
+.dn{text-align:center;font-size:12px;color:var(--tx3);margin-top:1.125rem;line-height:1.9}
+.dn code{background:var(--s);border:1px solid var(--bd);border-radius:4px;padding:1px 5px;font-family:var(--mono);font-size:11px;color:var(--tx2)}
+.dn a{color:var(--b);cursor:pointer;font-weight:600;text-decoration:none}
 
-  body { font-family: 'DM Sans', sans-serif; background: var(--gray-50); color: var(--gray-900); min-height: 100vh; }
+/* ═══ APP SHELL ═══ */
+#scA{flex-direction:row}
+.sb{width:228px;flex-shrink:0;background:var(--w);border-right:1px solid var(--bd);display:flex;flex-direction:column;height:100vh;position:sticky;top:0;overflow:hidden;transition:.3s}
+.sbtop{padding:1.125rem 1rem .875rem;border-bottom:1px solid var(--bd)}
+.sbnav{padding:.625rem .625rem;flex:1;overflow-y:auto}
+.ng{margin-bottom:1.125rem}
+.ngl{font-size:10px;font-weight:700;color:var(--tx3);letter-spacing:.9px;text-transform:uppercase;padding:0 .5rem;margin-bottom:.25rem}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:400;color:var(--tx2);transition:.15s;margin-bottom:1px}
+.ni:hover{background:var(--bg);color:var(--tx)}
+.ni.on{background:var(--b2);color:var(--b);font-weight:600}
+.ni svg{width:15px;height:15px;flex-shrink:0;stroke-width:1.75}
+.ni .bdg{margin-left:auto;background:var(--r);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center}
+.sbfoot{padding:.875rem 1rem;border-top:1px solid var(--bd);display:flex;align-items:center;gap:9px}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.avsm{width:30px;height:30px;font-size:11px;background:var(--b2);color:var(--b)}
+.avmd{width:36px;height:36px;font-size:13px;background:var(--b2);color:var(--b)}
+.sui{flex:1;min-width:0}
+.sun{font-size:13px;font-weight:600;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sur{font-size:11px;color:var(--tx3)}
+.lbtn{width:27px;height:27px;border-radius:6px;border:1.5px solid var(--bd);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s}
+.lbtn:hover{background:var(--rl);border-color:var(--r)}
+.lbtn svg{width:13px;height:13px;stroke:var(--tx3);fill:none;stroke-width:2}
+.lbtn:hover svg{stroke:var(--r)}
+.main{flex:1;overflow-y:auto;padding:1.75rem;background:var(--bg);height:100vh}
+.hbg{display:none;position:fixed;top:12px;left:12px;z-index:101;width:36px;height:36px;background:var(--w);border:1px solid var(--bd);border-radius:8px;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh)}
+.hbg svg{width:18px;height:18px;stroke:var(--tx);fill:none;stroke-width:2}
+.sbov{display:none;position:fixed;inset:0;background:rgba(6,14,45,.45);z-index:100}
 
-  .app { display: flex; flex-direction: column; min-height: 100vh; }
+/* ═══ PAGE ═══ */
+.ph{margin-bottom:1.5rem}
+.phrow{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:1.5rem;flex-wrap:wrap}
+.pt{font-size:21px;font-weight:700;color:var(--n);letter-spacing:-.3px}
+.ps{font-size:13px;color:var(--tx3);margin-top:2px}
 
-  /* TOPBAR */
-  .topbar {
-    background: white;
-    border-bottom: 1px solid var(--gray-200);
-    padding: 0 24px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow);
-  }
-  .topbar-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--gray-900);
-  }
-  .brand-icon {
-    width: 34px; height: 34px;
-    background: var(--brand);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 14px;
-    font-weight: 700;
-  }
-  .topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .user-avatar {
-    width: 34px; height: 34px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .notif-badge {
-    background: var(--danger);
-    color: white;
-    border-radius: 999px;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 1px 6px;
-  }
+/* ═══ STATS ═══ */
+.sr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.25rem}
+.stc{background:var(--w);border:1px solid var(--bd);border-radius:var(--rad);padding:1rem 1.125rem}
+.sti{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:.625rem}
+.sti svg{width:15px;height:15px}
+.stv{font-size:24px;font-weight:700;color:var(--n);line-height:1}
+.stl{font-size:11.5px;color:var(--tx3);margin-top:3px}
 
-  /* NAV TABS */
-  .nav-tabs {
-    background: white;
-    border-bottom: 1px solid var(--gray-200);
-    padding: 0 24px;
-    display: flex;
-    gap: 0;
-  }
-  .nav-tab {
-    padding: 14px 18px;
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--gray-500);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .nav-tab:hover { color: var(--brand); }
-  .nav-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+/* ═══ PILLS ═══ */
+.pi{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.pig{background:var(--gl);color:var(--g2)}
+.pia{background:var(--al);color:var(--a2)}
+.pir{background:var(--rl);color:var(--r2)}
+.pib{background:var(--b2);color:var(--b)}
+.pit{background:var(--tl);color:var(--t)}
+.pig2{background:var(--s);color:var(--tx3)}
 
-  /* MAIN */
-  .main { flex: 1; padding: 24px; max-width: 1200px; margin: 0 auto; width: 100%; }
+/* ═══ CARD ═══ */
+.cd{background:var(--w);border:1px solid var(--bd);border-radius:var(--radl);padding:1.25rem}
+.cdh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
+.cdt{font-size:14px;font-weight:700;color:var(--n)}
 
-  /* SECTION PAGES */
-  .page { display: none; }
-  .page.active { display: block; }
+/* ═══ TABLE ═══ */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tb{width:100%;border-collapse:collapse;min-width:520px}
+.tb thead th{font-size:10.5px;font-weight:700;color:var(--tx3);letter-spacing:.5px;text-transform:uppercase;padding:9px 12px;text-align:left;border-bottom:1.5px solid var(--bd);white-space:nowrap}
+.tb tbody td{font-size:13px;padding:10px 12px;border-bottom:1px solid var(--bd);vertical-align:middle}
+.tb tbody tr:last-child td{border-bottom:none}
+.tb tbody tr:hover td{background:var(--s)}
 
-  /* PAGE HEADER */
-  .page-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .page-title { font-size: 22px; font-weight: 600; color: var(--gray-900); }
-  .page-sub { font-size: 13px; color: var(--gray-500); margin-top: 2px; }
+/* ═══ ROOM ADMIN CARDS ═══ */
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.rc{background:var(--w);border:1.5px solid var(--bd);border-radius:var(--radl);overflow:hidden;transition:.2s}
+.rc:hover{box-shadow:var(--shm);border-color:var(--bd2)}
+.rct{padding:.875rem 1.125rem;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--bd)}
+.rcb{width:4px;border-radius:4px;flex-shrink:0;align-self:stretch;min-height:36px}
+.rin{flex:1;min-width:0}
+.rn{font-size:14px;font-weight:700;color:var(--n)}
+.rl{font-size:11.5px;color:var(--tx3)}
+.si2{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.rcm{padding:.75rem 1.125rem}
+.rf{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2);margin-bottom:5px}
+.rf svg{width:12px;height:12px;stroke:var(--tx3);fill:none;stroke-width:1.75;flex-shrink:0}
+.rcf{padding:.625rem 1.125rem;background:var(--s);border-top:1px solid var(--bd);display:flex;gap:6px;flex-wrap:wrap}
 
-  /* BTN */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 9px 16px;
-    border-radius: var(--radius-sm);
-    font-size: 13.5px;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    transition: all 0.15s;
-    font-family: inherit;
-  }
-  .btn-primary { background: var(--brand); color: white; }
-  .btn-primary:hover { background: #1D4ED8; }
-  .btn-outline { background: white; color: var(--gray-700); border: 1px solid var(--gray-200); }
-  .btn-outline:hover { background: var(--gray-50); }
-  .btn-danger { background: var(--danger); color: white; }
-  .btn-success { background: var(--success); color: white; }
-  .btn-sm { padding: 6px 12px; font-size: 12.5px; }
+/* ═══ BUTTONS ═══ */
+.btn{padding:7px 14px;font-size:12.5px;font-weight:600;border-radius:7px;cursor:pointer;border:1.5px solid transparent;transition:.15s;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.btn-pri{background:var(--b);color:#fff;border-color:var(--b)}
+.btn-pri:hover{background:var(--b1)}
+.btn-pri:disabled{background:var(--bd);border-color:var(--bd);color:var(--tx3);cursor:not-allowed}
+.btn-sec{background:var(--w);color:var(--tx2);border-color:var(--bd)}
+.btn-sec:hover{background:var(--bg);border-color:var(--bd2)}
+.btn-dan{background:var(--rl);color:var(--r2);border-color:transparent}
+.btn-dan:hover{border-color:var(--r)}
+.btn-warn{background:var(--al);color:var(--a2);border-color:transparent}
+.btn-warn:hover{border-color:var(--a)}
+.btn-grn{background:var(--gl);color:var(--g2);border-color:transparent}
+.btn-grn:hover{border-color:var(--g)}
+.btn-sm{padding:5px 11px;font-size:12px}
 
-  /* CARD */
-  .card {
-    background: white;
-    border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
-    box-shadow: var(--shadow);
-  }
+/* ═══ MODAL ═══ */
+.ov{position:fixed;inset:0;background:rgba(6,14,45,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;overflow-y:auto}
+.mo{background:var(--w);border-radius:var(--radxl);width:100%;max-width:500px;border:1px solid var(--bd);box-shadow:var(--shm);position:relative}
+.mo-lg{max-width:640px}
+.mh{padding:1.375rem 1.5rem 0;display:flex;align-items:flex-start;justify-content:space-between}
+.mt{font-size:17px;font-weight:700;color:var(--n)}
+.ms{font-size:13px;color:var(--tx3);margin-top:2px}
+.mhx{width:28px;height:28px;border-radius:6px;border:1.5px solid var(--bd);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s}
+.mhx:hover{background:var(--rl);border-color:var(--r)}
+.mhx svg{width:14px;height:14px;stroke:var(--tx3);fill:none;stroke-width:2}
+.mhx:hover svg{stroke:var(--r)}
+.mb{padding:1.125rem 1.5rem}
+.mf{padding:0 1.5rem 1.5rem;display:flex;gap:8px;justify-content:flex-end}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bmc{padding:10px 20px;background:var(--s);color:var(--tx2);border:1.5px solid var(--bd);border-radius:var(--rad);font-size:14px;font-weight:600;cursor:pointer;transition:.15s}
+.bmc:hover{background:var(--bd)}
+.bmo{padding:10px 24px;background:var(--b);color:#fff;border:none;border-radius:var(--rad);font-size:14px;font-weight:600;cursor:pointer;transition:.15s}
+.bmo:hover{background:var(--b1)}
 
-  /* STATS ROW */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-  .stat-card {
-    background: white;
-    border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
-    padding: 16px 18px;
-    box-shadow: var(--shadow);
-  }
-  .stat-label { font-size: 12px; color: var(--gray-500); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
-  .stat-value { font-size: 28px; font-weight: 600; color: var(--gray-900); margin-top: 4px; line-height: 1; }
-  .stat-sub { font-size: 12px; color: var(--gray-400); margin-top: 4px; }
-  .stat-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+/* ═══ TOAST ═══ */
+.to{position:fixed;bottom:1.25rem;right:1.25rem;background:var(--n);color:#fff;padding:10px 16px;border-radius:var(--rad);font-size:13px;z-index:500;opacity:0;transform:translateY(6px);transition:.25s;pointer-events:none;max-width:320px;line-height:1.5;box-shadow:var(--shm)}
+.to.sh{opacity:1;transform:none}
 
-  /* ROOM GRID */
-  .room-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-  }
-  .room-card {
-    background: white;
-    border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    transition: box-shadow 0.2s, transform 0.2s;
-    cursor: pointer;
-  }
-  .room-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-  .room-header-img {
-    height: 110px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    overflow: hidden;
-  }
-  .room-bg-1 { background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); }
-  .room-bg-2 { background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%); }
-  .room-bg-3 { background: linear-gradient(135deg, #FFF7ED 0%, #FED7AA 100%); }
-  .room-bg-4 { background: linear-gradient(135deg, #FDF4FF 0%, #F3E8FF 100%); }
-  .room-bg-5 { background: linear-gradient(135deg, #F0FDFA 0%, #CCFBF1 100%); }
-  .room-status-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 3px 9px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 600;
-  }
-  .badge-available { background: var(--success-light); color: var(--success); border: 1px solid #86EFAC; }
-  .badge-occupied { background: var(--danger-light); color: var(--danger); border: 1px solid #FCA5A5; }
-  .badge-pending { background: var(--warn-light); color: var(--warn); border: 1px solid #FCD34D; }
-  .badge-booked { background: #EFF6FF; color: var(--brand); border: 1px solid var(--brand-border); }
+/* ═══ PRINT OVERLAY ═══ */
+.print-area{background:var(--w);border-radius:var(--radl);padding:1.5rem;text-align:center;border:1px solid var(--bd)}
+@media print{body>*:not(#printTarget){display:none!important}.print-area{border:none;padding:0}}
 
-  .room-body { padding: 14px 16px; }
-  .room-name { font-size: 15px; font-weight: 600; color: var(--gray-900); }
-  .room-loc { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
-  .room-meta {
-    display: flex;
-    gap: 12px;
-    margin-top: 10px;
-  }
-  .room-meta-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 12px;
-    color: var(--gray-500);
-  }
-  .room-footer {
-    padding: 10px 16px;
-    border-top: 1px solid var(--gray-100);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .room-next { font-size: 11.5px; color: var(--gray-400); }
+/* ═══ GOOGLE-STYLE CALENDAR ═══ */
+.gcal{background:var(--w);border:1px solid var(--bd);border-radius:var(--radl);overflow:hidden}
+.gcal-nav{display:flex;align-items:center;gap:10px;padding:1rem 1.25rem;border-bottom:1px solid var(--bd)}
+.gcal-month{font-size:17px;font-weight:700;color:var(--n);flex:1}
+.gcal-nbtn{width:30px;height:30px;border:1.5px solid var(--bd);border-radius:7px;background:var(--w);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;flex-shrink:0}
+.gcal-nbtn:hover{background:var(--bg);border-color:var(--bd2)}
+.gcal-nbtn svg{width:14px;height:14px;stroke:var(--tx2);fill:none;stroke-width:2}
+.gcal-head{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--bd)}
+.gcal-dh{font-size:11px;font-weight:700;color:var(--tx3);text-align:center;padding:8px 4px;text-transform:uppercase;letter-spacing:.3px;border-right:1px solid var(--bd)}
+.gcal-dh:last-child{border-right:none}
+.gcal-body{display:grid;grid-template-columns:repeat(7,1fr)}
+.gcal-cell{border-right:1px solid var(--bd);border-bottom:1px solid var(--bd);min-height:100px;padding:4px;position:relative;vertical-align:top;transition:.15s;cursor:default}
+.gcal-cell:last-child,.gcal-cell:nth-child(7n){border-right:none}
+.gcal-cell.empty{background:var(--s);cursor:default}
+.gcal-cell.today{background:#EEF2FF}
+.gcal-cell:hover:not(.empty){background:var(--s)}
+.gcal-dn{font-size:12px;font-weight:500;color:var(--tx2);text-align:right;padding:2px 4px;line-height:1}
+.gcal-cell.today .gcal-dn{color:var(--b);font-weight:700}
+.gcal-ev{font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px;margin-bottom:2px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:.15s;line-height:1.4}
+.gcal-ev:hover{filter:brightness(.92)}
+/* room filter */
+.rchips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.rchip{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--bd);background:var(--w);color:var(--tx2);transition:.15s}
+.rchip:hover{background:var(--b2);border-color:var(--b3);color:var(--b)}
+.rchip.on{background:var(--b2);border-color:var(--b);color:var(--b)}
 
-  /* TIMELINE */
-  .timeline-wrap {
-    background: white;
-    border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
-    padding: 20px;
-    box-shadow: var(--shadow);
-    margin-bottom: 24px;
-    overflow-x: auto;
-  }
-  .timeline-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .timeline-title { font-size: 15px; font-weight: 600; color: var(--gray-900); }
-  .tl-date-nav { display: flex; align-items: center; gap: 8px; }
-  .tl-date-btn {
-    width: 28px; height: 28px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--gray-200);
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 12px;
-    color: var(--gray-600);
-    transition: all 0.15s;
-  }
-  .tl-date-btn:hover { background: var(--gray-50); border-color: var(--gray-300); }
-  .tl-date-label { font-size: 13px; font-weight: 500; color: var(--gray-700); min-width: 120px; text-align: center; }
-  .timeline-grid { min-width: 700px; }
-  .tl-hours-row {
-    display: flex;
-    padding-left: 100px;
-    margin-bottom: 6px;
-  }
-  .tl-hour {
-    flex: 1;
-    font-size: 10.5px;
-    color: var(--gray-400);
-    text-align: left;
-    font-family: 'DM Mono', monospace;
-  }
-  .tl-room-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 6px;
-  }
-  .tl-room-label {
-    width: 100px;
-    font-size: 12px;
-    color: var(--gray-600);
-    font-weight: 500;
-    flex-shrink: 0;
-    padding-right: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .tl-slots {
-    flex: 1;
-    height: 32px;
-    background: var(--gray-50);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--gray-100);
-    position: relative;
-    overflow: hidden;
-  }
-  .tl-booking {
-    position: absolute;
-    top: 3px;
-    height: calc(100% - 6px);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    padding: 0 6px;
-    font-size: 10.5px;
-    font-weight: 500;
-    overflow: hidden;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-  .tl-booking:hover { opacity: 0.85; }
-  .tl-booking.mine { background: #DBEAFE; color: #1D4ED8; border: 1px solid #93C5FD; }
-  .tl-booking.other { background: #E2E8F0; color: var(--gray-600); border: 1px solid var(--gray-300); }
-  .tl-booking.active { background: #DCFCE7; color: #15803D; border: 1px solid #86EFAC; }
-  .tl-booking.pending { background: #FEF9C3; color: #A16207; border: 1px solid #FDE047; }
+/* ═══ NOTIF BANNER ═══ */
+.nb{background:var(--al);border:1.5px solid #FCD34D;border-radius:var(--rad);padding:.875rem 1.125rem;display:flex;align-items:flex-start;gap:10px;margin-bottom:1.25rem}
+.nb svg{width:18px;height:18px;stroke:var(--a);fill:none;stroke-width:2;flex-shrink:0;margin-top:1px}
+.nb-t{font-size:13px;font-weight:700;color:#92400E}
+.nb-s{font-size:12px;color:#A16207;margin-top:2px;line-height:1.5}
 
-  /* BOOKING FORM */
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group.full { grid-column: 1 / -1; }
-  .form-label { font-size: 12.5px; font-weight: 500; color: var(--gray-700); }
-  .form-input, .form-select {
-    padding: 9px 12px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--gray-200);
-    font-size: 13.5px;
-    color: var(--gray-900);
-    background: white;
-    font-family: inherit;
-    transition: border-color 0.15s, box-shadow 0.15s;
-    outline: none;
-    width: 100%;
-  }
-  .form-input:focus, .form-select:focus {
-    border-color: var(--brand);
-    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
-  }
-  .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394A3B8' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px; }
+/* ═══ MINI CALENDAR ═══ */
+.mcal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:.75rem}
+.mcal-dh{font-size:10px;font-weight:700;color:var(--tx3);text-align:center;padding:3px 0;text-transform:uppercase}
+.mcal-d{position:relative;border-radius:6px;padding:4px 2px;min-height:28px;display:flex;flex-direction:column;align-items:center;border:1px solid transparent}
+.mcal-d.today{background:var(--b2);border-color:var(--b3)}
+.mcal-d.empty{opacity:.25}
+.mcal-dn{font-size:11.5px;font-weight:500;color:var(--tx2);line-height:1}
+.mcal-d.today .mcal-dn{color:var(--b);font-weight:700}
+.mcal-dot{width:5px;height:5px;border-radius:50%;margin-top:2px}
 
-  /* MODAL OVERLAY */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(15,23,42,0.4);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    backdrop-filter: blur(2px);
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: white;
-    border-radius: 14px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-    width: 100%;
-    max-width: 520px;
-    max-height: 90vh;
-    overflow-y: auto;
-    animation: modalIn 0.2s ease;
-  }
-  @keyframes modalIn { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: scale(1); } }
-  .modal-header {
-    padding: 20px 22px 16px;
-    border-bottom: 1px solid var(--gray-100);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .modal-title { font-size: 16px; font-weight: 600; color: var(--gray-900); }
-  .modal-close {
-    width: 28px; height: 28px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--gray-200);
-    background: none;
-    cursor: pointer;
-    font-size: 16px;
-    color: var(--gray-400);
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-  }
-  .modal-close:hover { background: var(--gray-50); color: var(--gray-700); }
-  .modal-body { padding: 20px 22px; }
-  .modal-footer { padding: 14px 22px; border-top: 1px solid var(--gray-100); display: flex; gap: 10px; justify-content: flex-end; }
+/* ═══ CONFIRM COUNTDOWN ═══ */
+.cfc{width:52px;height:52px;border-radius:50%;background:var(--b2);display:flex;align-items:center;justify-content:center;margin:0 auto .875rem}
+.cfc svg{width:22px;height:22px;stroke:var(--b);stroke-width:1.75;fill:none}
+.ctdown{font-size:30px;font-weight:700;color:var(--r);text-align:center;font-family:var(--mono);margin:.5rem 0}
 
-  /* QR MODAL */
-  .qr-wrap {
-    text-align: center;
-    padding: 10px 0;
-  }
-  .qr-box {
-    width: 180px;
-    height: 180px;
-    margin: 16px auto;
-    border-radius: 12px;
-    border: 2px solid var(--gray-200);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 72px;
-    background: white;
-    position: relative;
-    overflow: hidden;
-  }
-  .qr-scanner {
-    position: absolute;
-    left: 0; right: 0;
-    height: 2px;
-    background: var(--brand);
-    opacity: 0.7;
-    animation: scan 2s infinite ease-in-out;
-  }
-  @keyframes scan {
-    0% { top: 10px; }
-    50% { top: calc(100% - 10px); }
-    100% { top: 10px; }
-  }
-  .qr-code-svg {
-    width: 150px;
-    height: 150px;
-  }
-  .qr-room-name { font-size: 17px; font-weight: 600; color: var(--gray-900); }
-  .qr-room-info { font-size: 12.5px; color: var(--gray-500); margin-top: 4px; }
-  .qr-countdown {
-    margin-top: 14px;
-    padding: 12px;
-    background: var(--warn-light);
-    border: 1px solid #FCD34D;
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-    color: var(--warn);
-    font-weight: 500;
-  }
-  .countdown-timer { font-size: 26px; font-weight: 600; font-family: 'DM Mono', monospace; display: block; margin-top: 4px; }
-  .confirm-success {
-    background: var(--success-light);
-    border: 1px solid #86EFAC;
-    border-radius: var(--radius-sm);
-    padding: 14px;
-    text-align: center;
-    color: var(--success);
-    font-weight: 500;
-    font-size: 14px;
-    display: none;
-  }
+/* ═══ TABLET ═══ */
+#scT{flex-direction:column;background:linear-gradient(160deg,#EEF2FF,#F1F4FB 60%,#E0F9FA)}
+.th{background:var(--w);border-bottom:1px solid var(--bd);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.thl{display:flex;align-items:center;gap:12px}
+.tbn{font-size:16px;font-weight:700;color:var(--n)}
+.tbs{font-size:11px;color:var(--tx3)}
+.ttb{text-align:right}
+.ttm{font-size:28px;font-weight:700;color:var(--n);line-height:1;font-family:var(--mono)}
+.ttd{font-size:11px;color:var(--tx3);margin-top:2px}
+.tbody{padding:1.5rem 2rem;flex:1;display:flex;flex-direction:column;gap:1.125rem;overflow-y:auto}
+.trh{background:var(--w);border-radius:var(--radxl);padding:1.375rem 1.75rem;border:1px solid var(--bd);display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
+.tra{width:5px;border-radius:5px;flex-shrink:0;align-self:stretch;min-height:48px}
+.trt{font-size:26px;font-weight:700;color:var(--n);letter-spacing:-.3px}
+.trf{font-size:13px;color:var(--tx3);margin-top:3px}
+.trs{padding:9px 18px;border-radius:var(--rad);font-size:14px;font-weight:700;white-space:nowrap}
+.tcols{display:grid;grid-template-columns:1fr 1fr;gap:1.125rem}
+.tcd{background:var(--w);border-radius:var(--radl);border:1px solid var(--bd);padding:1.375rem}
+.tct{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--tx3);margin-bottom:.875rem}
+.tsr{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}
+.tsr:last-child{border-bottom:none}
+.tstime{font-size:12px;font-weight:600;color:var(--n);font-family:var(--mono);white-space:nowrap;min-width:96px}
+.tsn{font-size:12.5px;font-weight:600;color:var(--n)}
+.tsp{font-size:11px;color:var(--tx3)}
+.tqc{display:flex;flex-direction:column;align-items:center;gap:.75rem}
+.tql{font-size:12px;color:var(--tx3);text-align:center;line-height:1.7;max-width:220px}
+.tft{padding:.75rem 2rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--bd);background:var(--w);flex-shrink:0;font-size:11.5px;color:var(--tx3)}
 
-  /* MY BOOKINGS TABLE */
-  .bookings-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13.5px;
-  }
-  .bookings-table th {
-    text-align: left;
-    padding: 10px 14px;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: var(--gray-500);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    border-bottom: 1px solid var(--gray-200);
-    background: var(--gray-50);
-  }
-  .bookings-table td {
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--gray-100);
-    color: var(--gray-700);
-    vertical-align: middle;
-  }
-  .bookings-table tr:last-child td { border-bottom: none; }
-  .bookings-table tr:hover td { background: var(--gray-50); }
+/* ═══ COLOR PALETTE ═══ */
+.cpalette{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px}
+.cswatch{width:26px;height:26px;border-radius:6px;cursor:pointer;border:2.5px solid transparent;transition:.15s}
+.cswatch.on{border-color:var(--n);transform:scale(1.1)}
 
-  /* BADGES */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 3px 9px;
-    border-radius: 999px;
-    font-size: 11.5px;
-    font-weight: 500;
-  }
-  .badge-blue { background: #DBEAFE; color: #1D4ED8; }
-  .badge-green { background: #DCFCE7; color: #15803D; }
-  .badge-yellow { background: #FEF9C3; color: #A16207; }
-  .badge-red { background: #FEE2E2; color: #DC2626; }
-  .badge-gray { background: var(--gray-100); color: var(--gray-600); }
-
-  /* FILTER BAR */
-  .filter-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .filter-chip {
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 12.5px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid var(--gray-200);
-    background: white;
-    color: var(--gray-600);
-    transition: all 0.15s;
-  }
-  .filter-chip:hover { border-color: var(--brand); color: var(--brand); }
-  .filter-chip.active { background: var(--brand); color: white; border-color: var(--brand); }
-
-  /* EMPTY STATE */
-  .empty-state {
-    text-align: center;
-    padding: 48px 20px;
-    color: var(--gray-400);
-  }
-  .empty-icon { font-size: 40px; margin-bottom: 12px; }
-  .empty-text { font-size: 14px; }
-
-  /* CAPACITY TAG */
-  .cap-tag {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    font-size: 11.5px;
-    color: var(--gray-500);
-  }
-
-  /* FACILITY TAGS */
-  .facility-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
-  .facility-tag {
-    font-size: 10.5px;
-    padding: 2px 7px;
-    background: var(--gray-100);
-    color: var(--gray-600);
-    border-radius: 4px;
-    font-weight: 500;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 600px) {
-    .form-grid { grid-template-columns: 1fr; }
-    .main { padding: 16px; }
-    .stats-row { grid-template-columns: 1fr 1fr; }
-    .topbar { padding: 0 16px; }
-    .nav-tab { padding: 12px 12px; font-size: 13px; }
-    .nav-tabs { overflow-x: auto; }
-  }
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1024px){
+  .sr{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tcols{grid-template-columns:1fr}
+  .th{padding:0 1.25rem}
+  .tbody{padding:1.25rem}
+  .gcal-cell{min-height:72px}
+}
+@media(max-width:768px){
+  .hbg{display:flex}
+  .sb{position:fixed;top:0;left:-240px;z-index:102;height:100%;box-shadow:none}
+  .sb.open{left:0;box-shadow:var(--shm)}
+  .sbov.open{display:block}
+  #scA{flex-direction:column}
+  .main{padding:1.25rem;padding-top:4.5rem;height:auto;min-height:100vh}
+  .rg{grid-template-columns:1fr}
+  .phrow{flex-direction:column;align-items:flex-start}
+  .fr2{grid-template-columns:1fr}
+  .mo{max-width:100%}
+  .gcal-cell{min-height:54px;padding:2px}
+  .gcal-ev{display:none}
+  .gcal-cell.today::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--b);position:absolute;bottom:4px;left:50%;transform:translateX(-50%)}
+  .th{height:auto;padding:.75rem 1rem;flex-direction:column;align-items:flex-start;gap:.5rem}
+  .ttb{text-align:left}.ttm{font-size:22px}
+  .trh{flex-direction:column}
+}
+@media(max-width:480px){
+  .sr{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lcard,.tlcard{padding:1.75rem 1.25rem}
+  .main{padding:1rem;padding-top:4rem}
+  .stv{font-size:20px}
+  .gcal-dh{font-size:9px;padding:5px 1px}
+  .gcal-dn{font-size:10px}
+}
 </style>
+</head><body>
 
-<div class="app">
-  <div class="topbar">
-    <div class="topbar-brand">
-      <div class="brand-icon">M</div>
-      MeetBook
+<!-- LOGIN -->
+<div id="scL" class="sc on">
+  <div class="lcard">
+    <div class="brand">
+      <div class="bico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg></div>
+      <div><div class="bname">MeetSpace</div><div class="btag">Meeting Room Booking System</div></div>
     </div>
-    <div class="topbar-right">
-      <span id="topNotif" style="font-size:12px;color:var(--warn);font-weight:500;display:none;">⏰ Konfirmasi dalam <span id="topTimer">20:00</span></span>
-      <div class="user-avatar" title="Budi Santoso">BS</div>
-    </div>
-  </div>
-
-  <div class="nav-tabs">
-    <div class="nav-tab active" onclick="switchPage('dashboard')">🏠 Dashboard</div>
-    <div class="nav-tab" onclick="switchPage('rooms')">🚪 Ruang Meeting</div>
-    <div class="nav-tab" onclick="switchPage('mybookings')">📋 Booking Saya</div>
-    <div class="nav-tab" onclick="switchPage('qrscan')">📷 Scan QR</div>
-  </div>
-
-  <div class="main">
-
-    <!-- DASHBOARD PAGE -->
-    <div id="page-dashboard" class="page active">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Selamat pagi, Budi 👋</div>
-          <div class="page-sub">Kamis, 17 April 2025 · Kelola booking ruang meeting kamu</div>
-        </div>
-        <button class="btn btn-primary" onclick="openBookingModal()">+ Booking Ruangan</button>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-label">Tersedia Sekarang</div>
-          <div class="stat-value" style="color:var(--success);">3</div>
-          <div class="stat-sub"><span class="stat-dot" style="background:var(--success)"></span>dari 5 ruangan</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Booking Aktif</div>
-          <div class="stat-value" style="color:var(--brand);">2</div>
-          <div class="stat-sub">milik kamu hari ini</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Menunggu Konfirmasi</div>
-          <div class="stat-value" style="color:var(--warn);">1</div>
-          <div class="stat-sub">⏰ 18 menit tersisa</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Total Booking Bulan Ini</div>
-          <div class="stat-value">14</div>
-          <div class="stat-sub">+3 dari bulan lalu</div>
-        </div>
-      </div>
-
-      <!-- TIMELINE -->
-      <div class="timeline-wrap">
-        <div class="timeline-header">
-          <div class="timeline-title">Jadwal Hari Ini</div>
-          <div class="tl-date-nav">
-            <button class="tl-date-btn">◀</button>
-            <span class="tl-date-label">Kamis, 17 Apr</span>
-            <button class="tl-date-btn">▶</button>
-          </div>
-        </div>
-        <div class="timeline-grid">
-          <div class="tl-hours-row">
-            <div class="tl-hour">08:00</div>
-            <div class="tl-hour">09:00</div>
-            <div class="tl-hour">10:00</div>
-            <div class="tl-hour">11:00</div>
-            <div class="tl-hour">12:00</div>
-            <div class="tl-hour">13:00</div>
-            <div class="tl-hour">14:00</div>
-            <div class="tl-hour">15:00</div>
-            <div class="tl-hour">16:00</div>
-            <div class="tl-hour">17:00</div>
-          </div>
-          <!-- Room rows -->
-          <div id="tl-rows"></div>
-        </div>
-        <div style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;">
-          <span style="font-size:11.5px;color:var(--gray-500);display:flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;border-radius:3px;background:#DBEAFE;border:1px solid #93C5FD;display:inline-block;"></span>Booking kamu</span>
-          <span style="font-size:11.5px;color:var(--gray-500);display:flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;border-radius:3px;background:#DCFCE7;border:1px solid #86EFAC;display:inline-block;"></span>Sedang berlangsung</span>
-          <span style="font-size:11.5px;color:var(--gray-500);display:flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;border-radius:3px;background:#E2E8F0;border:1px solid var(--gray-300);display:inline-block;"></span>Booking lain</span>
-          <span style="font-size:11.5px;color:var(--gray-500);display:flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;border-radius:3px;background:#FEF9C3;border:1px solid #FDE047;display:inline-block;"></span>Belum dikonfirmasi</span>
-        </div>
-      </div>
-
-      <!-- UPCOMING BOOKINGS -->
-      <div class="card" style="padding:20px;">
-        <div style="font-size:15px;font-weight:600;color:var(--gray-900);margin-bottom:14px;">Booking Mendatang Kamu</div>
-        <div id="upcoming-list"></div>
-      </div>
-    </div>
-
-    <!-- ROOMS PAGE -->
-    <div id="page-rooms" class="page">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Ruang Meeting</div>
-          <div class="page-sub">5 ruangan tersedia di gedung ini</div>
-        </div>
-        <button class="btn btn-primary" onclick="openBookingModal()">+ Booking Sekarang</button>
-      </div>
-      <div class="filter-bar">
-        <button class="filter-chip active" onclick="filterRooms('all', this)">Semua</button>
-        <button class="filter-chip" onclick="filterRooms('available', this)">Tersedia</button>
-        <button class="filter-chip" onclick="filterRooms('occupied', this)">Sedang Digunakan</button>
-        <button class="filter-chip" onclick="filterRooms('small', this)">≤ 6 Orang</button>
-        <button class="filter-chip" onclick="filterRooms('large', this)">> 6 Orang</button>
-      </div>
-      <div class="room-grid" id="rooms-grid"></div>
-    </div>
-
-    <!-- MY BOOKINGS PAGE -->
-    <div id="page-mybookings" class="page">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Booking Saya</div>
-          <div class="page-sub">Riwayat dan jadwal booking ruang meeting kamu</div>
-        </div>
-        <button class="btn btn-primary" onclick="openBookingModal()">+ Booking Baru</button>
-      </div>
-      <div class="filter-bar">
-        <button class="filter-chip active" onclick="filterBookings('all', this)">Semua</button>
-        <button class="filter-chip" onclick="filterBookings('upcoming', this)">Mendatang</button>
-        <button class="filter-chip" onclick="filterBookings('active', this)">Aktif</button>
-        <button class="filter-chip" onclick="filterBookings('pending', this)">Belum Konfirmasi</button>
-        <button class="filter-chip" onclick="filterBookings('done', this)">Selesai</button>
-        <button class="filter-chip" onclick="filterBookings('cancelled', this)">Dibatalkan</button>
-      </div>
-      <div class="card" style="overflow:hidden;">
-        <table class="bookings-table" id="bookings-table">
-          <thead>
-            <tr>
-              <th>Ruangan</th>
-              <th>Tanggal</th>
-              <th>Waktu</th>
-              <th>Keperluan</th>
-              <th>Status</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody id="bookings-tbody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- QR SCAN PAGE -->
-    <div id="page-qrscan" class="page">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Konfirmasi QR Code</div>
-          <div class="page-sub">Scan QR code di ruangan untuk konfirmasi penggunaan</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:700px;">
-        <div class="card" style="padding:20px;">
-          <div style="font-size:14px;font-weight:600;margin-bottom:12px;color:var(--gray-900);">Booking aktif menunggu konfirmasi</div>
-          <div id="pending-qr-list"></div>
-        </div>
-        <div class="card" style="padding:20px;text-align:center;">
-          <div style="font-size:14px;font-weight:600;margin-bottom:16px;color:var(--gray-900);">Simulasi Scan QR</div>
-          <div style="font-size:12px;color:var(--gray-500);margin-bottom:14px;">Klik ruangan di kiri untuk melihat QR code & konfirmasi</div>
-          <div id="qr-display" style="display:none;">
-            <div class="qr-wrap">
-              <div class="qr-room-name" id="qr-room-name">—</div>
-              <div class="qr-room-info" id="qr-room-info">—</div>
-              <div class="qr-box">
-                <svg class="qr-code-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="qr-svg"></svg>
-                <div class="qr-scanner"></div>
-              </div>
-              <div class="qr-countdown" id="qr-countdown-box">
-                ⏰ Konfirmasi dalam
-                <span class="countdown-timer" id="qr-timer">20:00</span>
-                sebelum booking dibatalkan
-              </div>
-              <div class="confirm-success" id="confirm-success">
-                ✅ Ruangan berhasil dikonfirmasi!<br>
-                <span style="font-size:12px;font-weight:400;">Selamat menggunakan ruangan.</span>
-              </div>
-              <button class="btn btn-success" style="margin-top:12px;width:100%;" onclick="confirmBooking()" id="confirm-btn">
-                ✔ Konfirmasi Penggunaan
-              </button>
-            </div>
-          </div>
-          <div id="qr-empty" style="padding:30px 0;color:var(--gray-400);font-size:13px;">
-            Pilih booking dari daftar kiri
-          </div>
-        </div>
-      </div>
-      <div class="card" style="padding:16px 20px;margin-top:16px;max-width:700px;">
-        <div style="font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:8px;">ℹ️ Ketentuan Konfirmasi</div>
-        <ul style="font-size:12.5px;color:var(--gray-500);padding-left:16px;display:flex;flex-direction:column;gap:4px;">
-          <li>Karyawan wajib scan QR code di ruangan saat jam booking dimulai</li>
-          <li>Jika dalam <strong>20 menit</strong> tidak ada konfirmasi, booking otomatis dibatalkan</li>
-          <li>Ruangan yang dibatalkan otomatis dapat di-booking karyawan lain</li>
-          <li>Setiap ruangan memiliki QR code unik yang tertempel di pintu</li>
-        </ul>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- BOOKING MODAL -->
-<div class="modal-overlay" id="booking-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Booking Ruang Meeting</div>
-      <button class="modal-close" onclick="closeModal('booking-modal')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div class="form-group full">
-          <label class="form-label">Pilih Ruangan</label>
-          <select class="form-select" id="book-room" onchange="updateRoomInfo()">
-            <option value="">— Pilih ruangan —</option>
-          </select>
-          <div id="room-info-hint" style="font-size:12px;color:var(--gray-400);display:none;"></div>
-        </div>
-        <div class="form-group full">
-          <label class="form-label">Keperluan / Judul Meeting</label>
-          <input class="form-input" type="text" id="book-title" placeholder="Contoh: Sprint Planning Q2" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Tanggal</label>
-          <input class="form-input" type="date" id="book-date" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Jumlah Peserta</label>
-          <input class="form-input" type="number" id="book-pax" placeholder="Jumlah orang" min="1" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Jam Mulai</label>
-          <select class="form-select" id="book-start">
-            <option>08:00</option><option>08:30</option>
-            <option>09:00</option><option>09:30</option>
-            <option>10:00</option><option>10:30</option>
-            <option>11:00</option><option>11:30</option>
-            <option>12:00</option><option>12:30</option>
-            <option>13:00</option><option>13:30</option>
-            <option>14:00</option><option>14:30</option>
-            <option>15:00</option><option>15:30</option>
-            <option>16:00</option><option>16:30</option>
-            <option>17:00</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Jam Selesai</label>
-          <select class="form-select" id="book-end">
-            <option>08:30</option>
-            <option>09:00</option><option>09:30</option>
-            <option>10:00</option><option>10:30</option>
-            <option>11:00</option><option>11:30</option>
-            <option>12:00</option><option>12:30</option>
-            <option>13:00</option><option>13:30</option>
-            <option>14:00</option><option>14:30</option>
-            <option>15:00</option><option>15:30</option>
-            <option>16:00</option><option>16:30</option>
-            <option>17:00</option><option>17:30</option>
-            <option>18:00</option>
-          </select>
-        </div>
-        <div class="form-group full">
-          <label class="form-label">Catatan (opsional)</label>
-          <input class="form-input" type="text" id="book-note" placeholder="Peralatan khusus yang diperlukan, dll." />
-        </div>
-      </div>
-      <div id="book-conflict" style="margin-top:12px;padding:10px 12px;background:var(--danger-light);border:1px solid #FCA5A5;border-radius:var(--radius-sm);font-size:12.5px;color:var(--danger);display:none;">
-        ⚠️ Ruangan sudah di-booking pada waktu yang dipilih. Silakan pilih waktu lain.
-      </div>
-      <div id="book-success" style="margin-top:12px;padding:10px 12px;background:var(--success-light);border:1px solid #86EFAC;border-radius:var(--radius-sm);font-size:12.5px;color:var(--success);display:none;">
-        ✅ Booking berhasil! Ingat untuk scan QR code saat tiba di ruangan.
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('booking-modal')">Batal</button>
-      <button class="btn btn-primary" onclick="submitBooking()">Konfirmasi Booking</button>
+    <div class="lt">Masuk ke Sistem</div>
+    <p class="ls">Masukkan kredensial Anda untuk melanjutkan</p>
+    <div class="fl"><label>Email</label><input class="fi" id="lEm" type="email" placeholder="email@perusahaan.com" autocomplete="username"></div>
+    <div class="fl"><label>Password</label><input class="fi" id="lPw" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="blo" onclick="doLogin()">Masuk</button>
+    <div class="dn">
+      <strong style="color:var(--tx2)">Admin:</strong> <code>admin@corp.com</code> / <code>admin123</code><br>
+      <strong style="color:var(--tx2)">Karyawan:</strong> <code>budi@corp.com</code> / <code>user123</code><br>
+      <a onclick="goTabletLogin()">→ Masuk sebagai Tablet Mode</a>
     </div>
   </div>
 </div>
 
-<!-- ROOM DETAIL MODAL -->
-<div class="modal-overlay" id="room-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="rm-title">Detail Ruangan</div>
-      <button class="modal-close" onclick="closeModal('room-modal')">✕</button>
+<!-- TABLET LOGIN -->
+<div id="scTL" class="sc">
+  <div class="tlcard">
+    <div class="brand tl-brand">
+      <div class="bico" style="background:rgba(255,255,255,.15)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg></div>
+      <div><div class="bname">MeetSpace Tablet</div><div class="btag">Mode Tampilan Ruangan</div></div>
     </div>
-    <div class="modal-body" id="rm-body"></div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('room-modal')">Tutup</button>
-      <button class="btn btn-primary" onclick="closeModal('room-modal');openBookingModal()">Booking Ruangan Ini</button>
-    </div>
+    <div class="lt">Login Tablet</div>
+    <p class="ls">Masukkan kode akses tablet dan pilih ruangan</p>
+    <div class="fl"><label>Kode Akses Tablet</label><input class="fi" id="tlPin" type="password" placeholder="Masukkan PIN tablet" autocomplete="off"></div>
+    <div class="fl"><label>Pilih Ruangan</label><select class="fi" id="tlRoom"></select></div>
+    <button class="blo tl-blo" onclick="doTabletLogin()">Masuk ke Tablet</button>
+    <div class="tl-sub">PIN default: <strong>tablet123</strong> &nbsp;·&nbsp; <span onclick="ssc('scL')">← Kembali ke login biasa</span></div>
   </div>
 </div>
+
+<!-- APP -->
+<div id="scA" class="sc">
+  <button class="hbg" onclick="toggleSb()"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <div class="sbov" id="sbOv" onclick="closeSb()"></div>
+  <nav class="sb" id="sidebar"></nav>
+  <main class="main" id="mainArea"></main>
+</div>
+
+<!-- TABLET VIEW -->
+<div id="scT" class="sc"></div>
+
+<div id="toast" class="to"></div>
+<div id="mr"></div>
+<div id="printTarget" style="display:none"></div>
 
 <script>
-const ROOMS = [
-  { id:1, name:'Brainstorm Room', floor:'Lt. 2', capacity:6, bg:'room-bg-1', emoji:'💡', facilities:['Proyektor','Whiteboard','TV 55"','AC','WiFi'], status:'available', nextBooking:'14:00' },
-  { id:2, name:'Strategy Room', floor:'Lt. 3', capacity:12, bg:'room-bg-2', emoji:'🎯', facilities:['Proyektor','Video Call','Whiteboard','AC','WiFi'], status:'occupied', nextBooking:'15:00' },
-  { id:3, name:'Focus Room', floor:'Lt. 2', capacity:4, bg:'room-bg-3', emoji:'🔍', facilities:['TV 43"','AC','WiFi'], status:'available', nextBooking:'16:00' },
-  { id:4, name:'Board Room', floor:'Lt. 4', capacity:20, bg:'room-bg-4', emoji:'🏛️', facilities:['Proyektor','Video Conference','Podium','AC','WiFi'], status:'booked', nextBooking:'10:00' },
-  { id:5, name:'Creative Studio', floor:'Lt. 3', capacity:8, bg:'room-bg-5', emoji:'🎨', facilities:['TV 65"','Whiteboard','Kamera','AC','WiFi'], status:'pending', nextBooking:'09:30' },
+/* ═══ DATA ═══ */
+const USERS=[
+  {id:1,name:'Admin Sistem',email:'admin@corp.com',pw:'admin123',role:'admin',dept:'IT',ini:'AS'},
+  {id:2,name:'Budi Santoso',email:'budi@corp.com',pw:'user123',role:'employee',dept:'Marketing',ini:'BS'},
+  {id:3,name:'Siti Rahayu',email:'siti@corp.com',pw:'user123',role:'employee',dept:'Finance',ini:'SR'},
+  {id:4,name:'Dian Pratiwi',email:'dian@corp.com',pw:'user123',role:'employee',dept:'HRD',ini:'DP'},
 ];
-
-let BOOKINGS = [
-  { id:1, roomId:4, room:'Board Room', date:'2025-04-17', start:'10:00', end:'12:00', title:'Presentasi Klien PT Pertamina', status:'active', confirmed:true },
-  { id:2, roomId:5, room:'Creative Studio', date:'2025-04-17', start:'09:30', end:'10:30', title:'Design Review Barito Pacific', status:'pending', confirmed:false },
-  { id:3, roomId:1, room:'Brainstorm Room', date:'2025-04-17', start:'14:00', end:'15:30', title:'Sprint Planning Q2', status:'upcoming', confirmed:false },
-  { id:4, roomId:2, room:'Strategy Room', date:'2025-04-18', start:'09:00', end:'10:00', title:'Kick-off P-Mobile Phase 3', status:'upcoming', confirmed:false },
-  { id:5, roomId:3, room:'Focus Room', date:'2025-04-10', start:'11:00', end:'12:00', title:'1-on-1 Review', status:'done', confirmed:true },
-  { id:6, roomId:1, room:'Brainstorm Room', date:'2025-04-08', start:'13:00', end:'14:00', title:'Rapat Internal Tim', status:'cancelled', confirmed:false },
+let ROOMS=[
+  {id:1,name:'Ruang Merak',floor:'Lantai 3',cap:10,fac:'Proyektor · AC · Whiteboard',color:'#1041D4'},
+  {id:2,name:'Ruang Elang',floor:'Lantai 3',cap:20,fac:'LED TV · AC · Video Conference',color:'#0891B2'},
+  {id:3,name:'Ruang Garuda',floor:'Lantai 4',cap:40,fac:'Proyektor · AC · Podium',color:'#16A34A'},
+  {id:4,name:'Ruang Cendrawasih',floor:'Lantai 4',cap:6,fac:'TV · AC',color:'#D97706'},
+  {id:5,name:'Ruang Nuri',floor:'Lantai 2',cap:8,fac:'Proyektor · AC · Whiteboard',color:'#DC2626'},
+  {id:6,name:'Ruang Kakatua',floor:'Lantai 2',cap:15,fac:'LED TV · AC · Video Conference',color:'#7C3AED'},
 ];
+let BOOKINGS=[
+  {id:1,roomId:1,userId:2,uName:'Budi Santoso',dept:'Marketing',date:'2026-04-17',st:'09:00',et:'11:00',purpose:'Rapat Tim Q2',confirmed:true},
+  {id:2,roomId:2,userId:3,uName:'Siti Rahayu',dept:'Finance',date:'2026-04-17',st:'13:00',et:'15:00',purpose:'Review Anggaran',confirmed:false},
+  {id:3,roomId:3,userId:2,uName:'Budi Santoso',dept:'Marketing',date:'2026-04-18',st:'10:00',et:'12:00',purpose:'Presentasi Klien',confirmed:false},
+  {id:4,roomId:5,userId:3,uName:'Siti Rahayu',dept:'Finance',date:'2026-04-17',st:'14:00',et:'15:00',purpose:'Diskusi Internal',confirmed:false},
+  {id:5,roomId:1,userId:2,uName:'Budi Santoso',dept:'Marketing',date:'2026-04-18',st:'09:00',et:'10:30',purpose:'Kick-off Proyek',confirmed:false},
+  {id:6,roomId:2,userId:3,uName:'Siti Rahayu',dept:'Finance',date:'2026-04-21',st:'10:00',et:'11:00',purpose:'Audit Internal',confirmed:false},
+  {id:7,roomId:1,userId:2,uName:'Budi Santoso',dept:'Marketing',date:'2026-04-22',st:'13:00',et:'14:30',purpose:'Review Desain',confirmed:false},
+  {id:8,roomId:4,userId:4,uName:'Dian Pratiwi',dept:'HRD',date:'2026-04-22',st:'10:00',et:'11:00',purpose:'Interview Kandidat',confirmed:false},
+  {id:9,roomId:3,userId:4,uName:'Dian Pratiwi',dept:'HRD',date:'2026-04-24',st:'09:00',et:'10:00',purpose:'Onboarding Karyawan',confirmed:false},
+];
+let nxId=10;
+const TODAY='2026-04-17';
+const TABLET_PIN='tablet123';
+const COLORS=['#1041D4','#0891B2','#16A34A','#D97706','#DC2626','#7C3AED','#DB2777','#EA580C','#0F766E','#1D4ED8'];
+const MONTHS=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const DAYS=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+const TIMES=['07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
 
-let selectedQrBooking = null;
-let qrTimerInterval = null;
-let qrSeconds = 1200;
+let S={user:null,page:'dashboard',calRoom:0,calY:2026,calM:3,tabletRoom:0};
+let cTimer=null,cSec=0;
 
-function switchPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  const tabs = document.querySelectorAll('.nav-tab');
-  const order = ['dashboard','rooms','mybookings','qrscan'];
-  tabs[order.indexOf(id)].classList.add('active');
-  if(id === 'rooms') renderRooms();
-  if(id === 'mybookings') renderBookingsTable('all');
-  if(id === 'qrscan') renderPendingQR();
-}
+/* ═══ HELPERS ═══ */
+const $=id=>document.getElementById(id);
+function toast(msg,ok=false){const t=$('toast');t.textContent=msg;t.style.background=ok?'#15803D':'var(--n)';t.classList.add('sh');setTimeout(()=>t.classList.remove('sh'),3200)}
+function ssc(id){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));$(id).classList.add('on')}
+function toggleSb(){$('sidebar').classList.toggle('open');$('sbOv').classList.toggle('open')}
+function closeSb(){$('sidebar').classList.remove('open');$('sbOv').classList.remove('open')}
+function ico(d){return`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">${d}</svg>`}
+function prevMonth(){S.calM--;if(S.calM<0){S.calM=11;S.calY--;}}
+function nextMonth(){S.calM++;if(S.calM>11){S.calM=0;S.calY++;}}
+function clMd(){$('mr').innerHTML='';clearInterval(cTimer);}
 
-function openBookingModal() {
-  const sel = document.getElementById('book-room');
-  sel.innerHTML = '<option value="">— Pilih ruangan —</option>';
-  ROOMS.forEach(r => {
-    const opt = document.createElement('option');
-    opt.value = r.id;
-    opt.textContent = r.name + ' (Maks. ' + r.capacity + ' org) - ' + r.floor;
-    sel.appendChild(opt);
-  });
-  // Set today's date
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth()+1).padStart(2,'0');
-  const dd = String(today.getDate()).padStart(2,'0');
-  document.getElementById('book-date').value = yyyy+'-'+mm+'-'+dd;
-  document.getElementById('book-conflict').style.display = 'none';
-  document.getElementById('book-success').style.display = 'none';
-  document.getElementById('booking-modal').classList.add('open');
-}
-
-function updateRoomInfo() {
-  const rid = parseInt(document.getElementById('book-room').value);
-  const room = ROOMS.find(r => r.id === rid);
-  const hint = document.getElementById('room-info-hint');
-  if(room) {
-    hint.style.display = 'block';
-    hint.textContent = '📍 ' + room.floor + ' · Kapasitas ' + room.capacity + ' orang · ' + room.facilities.join(', ');
-  } else {
-    hint.style.display = 'none';
+function rmSt(rid){
+  const now=new Date();const nm=now.getHours()*60+now.getMinutes();
+  const bks=BOOKINGS.filter(b=>b.roomId===rid&&b.date===TODAY);
+  for(const b of bks){
+    const[sh,sm]=b.st.split(':').map(Number);const[eh,em]=b.et.split(':').map(Number);
+    const sM=sh*60+sm,eM=eh*60+em;
+    if(nm>=sM&&nm<eM){
+      if(!b.confirmed&&nm>=sM+20)return{lbl:'Tersedia',cls:'pig',dot:'#16A34A',bk:b,rel:true};
+      if(!b.confirmed)return{lbl:'Menunggu Konfirmasi',cls:'pia',dot:'#D97706',bk:b};
+      return{lbl:'Sedang Digunakan',cls:'pir',dot:'#DC2626',bk:b};
+    }
   }
+  return{lbl:'Tersedia',cls:'pig',dot:'#16A34A',bk:null};
 }
 
-function submitBooking() {
-  const roomId = parseInt(document.getElementById('book-room').value);
-  const title = document.getElementById('book-title').value.trim();
-  const date = document.getElementById('book-date').value;
-  const start = document.getElementById('book-start').value;
-  const end = document.getElementById('book-end').value;
-  if(!roomId || !title || !date) {
-    document.getElementById('book-conflict').style.display = 'block';
-    document.getElementById('book-conflict').textContent = '⚠️ Mohon lengkapi semua field yang wajib diisi.';
-    return;
+function qrSVG(seed,sz=128){
+  const c=13,cs=sz/c;let o='';
+  for(let r=0;r<c;r++)for(let cc=0;cc<c;cc++){if(((seed+r*7+cc*13+r*cc)%5)<2)o+=`<rect x="${cc*cs}" y="${r*cs}" width="${cs}" height="${cs}" fill="#1041D4"/>`;}
+  [[0,0],[0,3],[3,0]].forEach(([rx,ry])=>{o+=`<rect x="${rx*cs}" y="${ry*cs}" width="${3*cs}" height="${3*cs}" rx="3" fill="#1041D4"/><rect x="${rx*cs+cs*.25}" y="${ry*cs+cs*.25}" width="${2.5*cs}" height="${2.5*cs}" rx="2" fill="#fff"/><rect x="${rx*cs+cs*.75}" y="${ry*cs+cs*.75}" width="${1.5*cs}" height="${1.5*cs}" rx="1" fill="#1041D4"/>`;});
+  return`<svg viewBox="0 0 ${sz} ${sz}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">${o}</svg>`;
+}
+
+/* ═══ AUTH ═══ */
+function doLogin(){
+  const em=$('lEm').value.trim(),pw=$('lPw').value;
+  const u=USERS.find(x=>x.email===em&&x.pw===pw);
+  if(!u){toast('Email atau password salah');return;}
+  S.user=u;S.page='dashboard';buildApp();ssc('scA');
+}
+
+function goTabletLogin(){
+  ssc('scTL');
+  const sel=$('tlRoom');
+  sel.innerHTML=ROOMS.map(r=>`<option value="${r.id}">${r.name} — ${r.floor}</option>`).join('');
+}
+
+function doTabletLogin(){
+  const pin=$('tlPin').value;
+  const rid=parseInt($('tlRoom').value);
+  if(pin!==TABLET_PIN){toast('PIN tablet salah');return;}
+  S.tabletRoom=rid;
+  renderTablet();ssc('scT');
+  if(S._tClk)clearInterval(S._tClk);
+  S._tClk=setInterval(()=>{if($('scT').classList.contains('on'))updateTabletClock();},30000);
+}
+
+/* ═══ SIDEBAR ═══ */
+function buildSidebar(){
+  const isA=S.user.role==='admin';
+  const pend=BOOKINGS.filter(b=>!b.confirmed&&b.date===TODAY).length;
+  const myPend=BOOKINGS.filter(b=>b.userId===S.user.id&&b.date===TODAY&&!b.confirmed).length;
+  const adminNav=[
+    {g:'Utama',items:[
+      {id:'dashboard',nm:'Dashboard',ic:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/>'},
+      {id:'rooms',nm:'Kelola Ruangan',ic:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18M3 15h18"/>'},
+      {id:'bookings',nm:'Semua Booking',ic:'<rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',bdg:pend||undefined},
+      {id:'calendar',nm:'Kalender',ic:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>'},
+    ]},
+    {g:'Lainnya',items:[
+      {id:'users',nm:'Pengguna',ic:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>'},
+    ]},
+  ];
+  const empNav=[
+    {g:'Menu',items:[
+      {id:'dashboard',nm:'Dashboard',ic:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/>'},
+      {id:'rooms',nm:'Booking Ruangan',ic:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18M3 15h18"/>'},
+      {id:'mybookings',nm:'Booking Saya',ic:'<rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',bdg:myPend||undefined},
+      {id:'calendar',nm:'Kalender Ruangan',ic:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>'},
+    ]},
+  ];
+  const grps=isA?adminNav:empNav;
+  $('sidebar').innerHTML=`<div class="sbtop"><div class="brand" style="margin-bottom:0"><div class="bico" style="width:32px;height:32px;border-radius:8px"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg></div><div class="bname" style="font-size:15px">MeetSpace</div></div></div>
+<div class="sbnav">${grps.map(g=>`<div class="ng"><div class="ngl">${g.g}</div>${g.items.map(i=>`<div class="ni${S.page===i.id?' on':''}" onclick="gp('${i.id}');closeSb()">${ico(i.ic)}${i.nm}${i.bdg?`<span class="bdg">${i.bdg}</span>`:''}</div>`).join('')}</div>`).join('')}</div>
+<div class="sbfoot"><div class="av avmd">${S.user.ini}</div><div class="sui"><div class="sun">${S.user.name}</div><div class="sur">${S.user.dept} · ${S.user.role==='admin'?'Admin':'Karyawan'}</div></div><button class="lbtn" onclick="doLogout()" title="Keluar"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button></div>`;
+}
+function buildApp(){buildSidebar();renderPage();}
+function doLogout(){S.user=null;ssc('scL');}
+function gp(p){S.page=p;buildSidebar();renderPage();}
+function renderPage(){$('mainArea').innerHTML=(pages[S.page]||pages.dashboard)();}
+
+/* ═══ PAGES ═══ */
+const pages={};
+
+/* DASHBOARD */
+pages.dashboard=()=>{
+  const isA=S.user.role==='admin';
+  const tBks=BOOKINGS.filter(b=>b.date===TODAY);
+  const up=BOOKINGS.filter(b=>b.date>=TODAY).sort((a,b)=>a.date.localeCompare(b.date)||a.st.localeCompare(b.st)).slice(0,5);
+  const myPend=BOOKINGS.filter(b=>b.userId===S.user.id&&b.date===TODAY&&!b.confirmed);
+
+  // Mini calendar for employee
+  let mini='';
+  if(!isA){
+    const y=S.calY,m=S.calM,fd=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();
+    const myDates=new Set(BOOKINGS.filter(b=>b.userId===S.user.id&&b.date.startsWith(`${y}-${String(m+1).padStart(2,'0')}`)).map(b=>b.date));
+    let cells='';
+    for(let i=0;i<fd;i++)cells+=`<div class="mcal-d empty"></div>`;
+    for(let d=1;d<=days;d++){
+      const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const has=myDates.has(ds);
+      cells+=`<div class="mcal-d${ds===TODAY?' today':''}"><span class="mcal-dn">${d}</span>${has?`<div class="mcal-dot" style="background:var(--b)"></div>`:''}</div>`;
+    }
+    mini=`<div class="cd" style="margin-bottom:1.25rem">
+<div class="cdh">
+<div class="cdt">Kalender Booking Saya</div>
+<div style="display:flex;align-items:center;gap:6px">
+<button class="gcal-nbtn" onclick="prevMonth();renderPage()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg></button>
+<span style="font-size:13px;font-weight:700;color:var(--n);min-width:128px;text-align:center">${MONTHS[m]} ${y}</span>
+<button class="gcal-nbtn" onclick="nextMonth();renderPage()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg></button>
+</div>
+</div>
+<div class="mcal">${DAYS.map(d=>`<div class="mcal-dh">${d}</div>`).join('')}${cells}</div>
+<div style="display:flex;gap:10px;margin-top:.625rem;flex-wrap:wrap">
+<div style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--tx2)"><div style="width:6px;height:6px;border-radius:50%;background:var(--b)"></div>Ada booking</div>
+<div style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--tx2)"><div style="width:14px;height:14px;border-radius:4px;background:var(--b2);border:1.5px solid var(--b3)"></div>Hari ini</div>
+</div></div>`;
   }
-  // Conflict check
-  const conflict = BOOKINGS.find(b =>
-    b.roomId === roomId &&
-    b.date === date &&
-    b.status !== 'cancelled' &&
-    b.status !== 'done' &&
-    !(end <= b.start || start >= b.end)
-  );
-  if(conflict) {
-    document.getElementById('book-conflict').style.display = 'block';
-    document.getElementById('book-conflict').textContent = '⚠️ Ruangan sudah di-booking ' + conflict.start + '–' + conflict.end + '. Pilih waktu lain.';
-    document.getElementById('book-success').style.display = 'none';
-    return;
+
+  let notif='';
+  if(!isA&&myPend.length){
+    const b=myPend[0],rm=ROOMS.find(r=>r.id===b.roomId);
+    notif=`<div class="nb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+<div><div class="nb-t">Konfirmasi Diperlukan</div><div class="nb-s">${rm?.name} · ${b.st}–${b.et} · "${b.purpose}"<br>Segera scan QR pada tablet di ruangan untuk konfirmasi.</div>
+<button class="btn btn-pri btn-sm" style="margin-top:8px" onclick="openConfMd(${b.id})">Konfirmasi Sekarang</button></div></div>`;
   }
-  const room = ROOMS.find(r => r.id === roomId);
-  const newB = {
-    id: BOOKINGS.length + 1,
-    roomId, room: room.name, date, start, end, title, status:'upcoming', confirmed:false
-  };
-  BOOKINGS.push(newB);
-  document.getElementById('book-conflict').style.display = 'none';
-  document.getElementById('book-success').style.display = 'block';
-  renderUpcoming();
-  renderTimeline();
-  setTimeout(() => closeModal('booking-modal'), 1800);
+
+  return`<div class="ph"><div class="pt">Dashboard</div><div class="ps">Selamat datang, ${S.user.name.split(' ')[0]}!</div></div>
+${notif}
+<div class="sr">
+${stc('#EEF2FF','#1041D4','<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18"/>',ROOMS.length,'Total Ruangan')}
+${stc('#E0F9FA','#0891B2','<rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/>',tBks.length,'Booking Hari Ini')}
+${stc('#DCFCE7','#15803D','<polyline points="20,6 9,17 4,12"/>',tBks.filter(b=>b.confirmed).length,'Dikonfirmasi')}
+${stc('#FEF3C7','#D97706','<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>',isA?tBks.filter(b=>!b.confirmed).length:BOOKINGS.filter(b=>b.userId===S.user.id&&b.date>=TODAY).length,isA?'Perlu Konfirmasi':'Booking Aktif')}
+</div>
+${mini}
+<div class="cd"><div class="cdh"><div class="cdt">${isA?'Booking Mendatang':'Jadwal Berikutnya'}</div></div>
+<div class="tw"><table class="tb"><thead><tr><th>Ruangan</th><th>Tanggal</th><th>Waktu</th><th>Tujuan</th>${isA?'<th>Pemohon</th>':''}<th>Status</th></tr></thead><tbody>
+${(isA?up:BOOKINGS.filter(b=>b.userId===S.user.id&&b.date>=TODAY).sort((a,b2)=>a.date.localeCompare(b2.date)||a.st.localeCompare(b2.st)).slice(0,5)).map(b=>{const r=ROOMS.find(x=>x.id===b.roomId);return`<tr><td><div style="display:flex;align-items:center;gap:7px"><div style="width:3px;height:22px;border-radius:2px;background:${r?.color||'#ccc'};flex-shrink:0"></div><span style="font-weight:600">${r?.name||'—'}</span></div></td><td style="color:var(--tx2);font-size:12.5px">${b.date}</td><td style="font-family:var(--mono);font-size:12px">${b.st}–${b.et}</td><td style="color:var(--tx2)">${b.purpose}</td>${isA?`<td>${b.uName}</td>`:''}<td><span class="pi ${b.confirmed?'pig':'pia'}">${b.confirmed?'Dikonfirmasi':'Menunggu'}</span></td></tr>`;}).join('')}
+</tbody></table></div></div>`;
+};
+function stc(bg,c,ic,v,l){return`<div class="stc"><div class="sti" style="background:${bg}"><svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.75">${ic}</svg></div><div class="stv">${v}</div><div class="stl">${l}</div></div>`;}
+
+/* ROOMS — admin only: no booking button */
+pages.rooms=()=>`<div class="phrow">
+<div><div class="pt">Kelola Ruangan</div><div class="ps">Tambah, edit, dan kelola ruangan meeting.</div></div>
+<button class="btn btn-pri" onclick="openAddRoom()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Tambah Ruangan</button>
+</div>
+<div class="rg">${ROOMS.map(rm=>adminRoomCard(rm)).join('')}</div>`;
+
+function adminRoomCard(rm){
+  const st=rmSt(rm.id);
+  return`<div class="rc">
+<div class="rct"><div class="rcb" style="background:${rm.color}"></div>
+<div class="rin"><div class="rn">${rm.name}</div><div class="rl">${rm.floor} · ${rm.cap} orang</div></div>
+<div class="si2" style="background:${st.dot}"></div></div>
+<div class="rcm">
+<div class="rf">${ico('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>')}${rm.fac}</div>
+<div style="margin-top:7px"><span class="pi ${st.cls}">${st.lbl}</span></div>
+</div>
+<div class="rcf">
+<button class="btn btn-sec btn-sm" style="flex:1" onclick="openEditRoom(${rm.id})">${ico('<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>')}Edit</button>
+<button class="btn btn-sec btn-sm" onclick="openQRModal(${rm.id})">${ico('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>')}QR Code</button>
+<button class="btn btn-dan btn-sm" onclick="delRoom(${rm.id})">${ico('<polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14H6L5,6"/><path d="M10,11v6"/><path d="M14,11v6"/>')}Hapus</button>
+</div></div>`;
 }
 
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
+/* EMPLOYEE ROOMS — with booking only */
+pages.rooms_emp=()=>`<div class="phrow"><div><div class="pt">Booking Ruangan</div><div class="ps">Pilih ruangan untuk pemesanan.</div></div></div>
+<div class="rg">${ROOMS.map(rm=>{
+  const st=rmSt(rm.id);const can=st.lbl==='Tersedia'||st.rel;
+  return`<div class="rc">
+<div class="rct"><div class="rcb" style="background:${rm.color}"></div>
+<div class="rin"><div class="rn">${rm.name}</div><div class="rl">${rm.floor}</div></div>
+<div class="si2" style="background:${st.dot}"></div></div>
+<div class="rcm">
+<div class="rf">${ico('<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>')}${rm.cap} orang</div>
+<div class="rf">${ico('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>')}${rm.fac}</div>
+<div style="margin-top:8px"><span class="pi ${st.cls}">${st.lbl}</span></div>
+</div>
+<div class="rcf"><button class="btn btn-pri btn-sm" style="flex:1" ${can?'':'disabled'} onclick="openBookModal(${rm.id},'')">
+${ico('<rect x="3" y="4" width="18" height="16" rx="2"/><line x1="12" y1="9" x2="12" y2="15"/><line x1="9" y1="12" x2="15" y2="12"/>')}${can?'Booking':'Tidak Tersedia'}</button></div></div>`;
+}).join('')}`;
+
+/* Override rooms page based on role */
+const origRenderPage=renderPage;
+function renderPage(){
+  let pg=S.page;
+  if(pg==='rooms'&&S.user&&S.user.role==='employee')pg='rooms_emp';
+  $('mainArea').innerHTML=(pages[pg]||pages.dashboard)();
 }
 
-// STATUS badges
-function statusBadge(status, confirmed) {
-  if(status === 'active' && confirmed) return '<span class="badge badge-green">● Berlangsung</span>';
-  if(status === 'pending' || (status === 'active' && !confirmed)) return '<span class="badge badge-yellow">⏰ Belum Konfirmasi</span>';
-  if(status === 'upcoming') return '<span class="badge badge-blue">○ Mendatang</span>';
-  if(status === 'done') return '<span class="badge badge-gray">✓ Selesai</span>';
-  if(status === 'cancelled') return '<span class="badge badge-red">✕ Dibatalkan</span>';
-  return '';
-}
+/* BOOKINGS — admin full CRUD */
+pages.bookings=()=>{
+  const bks=[...BOOKINGS].sort((a,b)=>b.date.localeCompare(a.date)||b.st.localeCompare(a.st));
+  return`<div class="phrow">
+<div><div class="pt">Semua Booking</div><div class="ps">Kelola seluruh pemesanan ruangan.</div></div>
+<button class="btn btn-pri" onclick="openAdminAddBk()">${ico('<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>')}Tambah Booking</button>
+</div>
+<div class="cd"><div class="tw"><table class="tb"><thead><tr><th>Ruangan</th><th>Pemohon</th><th>Dept</th><th>Tanggal</th><th>Waktu</th><th>Tujuan</th><th>Status</th><th></th></tr></thead><tbody>
+${bks.map(b=>{const r=ROOMS.find(x=>x.id===b.roomId);return`<tr>
+<td><div style="display:flex;align-items:center;gap:7px"><div style="width:3px;height:22px;border-radius:2px;background:${r?.color||'#ccc'};flex-shrink:0"></div><span style="font-weight:600">${r?.name||'—'}</span></div></td>
+<td>${b.uName}</td><td style="color:var(--tx3)">${b.dept}</td>
+<td style="font-size:12.5px;font-family:var(--mono)">${b.date}</td>
+<td style="font-family:var(--mono);font-size:12px">${b.st}–${b.et}</td>
+<td style="color:var(--tx2);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${b.purpose}</td>
+<td><span class="pi ${b.confirmed?'pig':'pia'}">${b.confirmed?'Dikonfirmasi':'Menunggu'}</span></td>
+<td><div style="display:flex;gap:5px">
+<button class="btn btn-warn btn-sm" onclick="openAdminEditBk(${b.id})">${ico('<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>')}</button>
+<button class="btn btn-dan btn-sm" onclick="cancelBk(${b.id})">${ico('<polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14H6L5,6"/>')}</button>
+</div></td>
+</tr>`;}).join('')}
+</tbody></table></div></div>`;
+};
 
-// RENDER ROOMS
-function renderRooms(filter) {
-  const grid = document.getElementById('rooms-grid');
-  let list = ROOMS;
-  if(filter === 'available') list = ROOMS.filter(r => r.status === 'available');
-  if(filter === 'occupied') list = ROOMS.filter(r => r.status === 'occupied');
-  if(filter === 'small') list = ROOMS.filter(r => r.capacity <= 6);
-  if(filter === 'large') list = ROOMS.filter(r => r.capacity > 6);
-  const statusMap = { available:'badge-available', occupied:'badge-occupied', pending:'badge-pending', booked:'badge-booked' };
-  const statusLabel = { available:'Tersedia', occupied:'Sedang Digunakan', pending:'Menunggu Konfirmasi', booked:'Di-booking' };
-  grid.innerHTML = list.map(r => `
-    <div class="room-card" onclick="showRoomDetail(${r.id})">
-      <div class="room-header-img ${r.bg}">
-        <span style="font-size:42px;">${r.emoji}</span>
-        <span class="room-status-badge ${statusMap[r.status]}">${statusLabel[r.status]}</span>
-      </div>
-      <div class="room-body">
-        <div class="room-name">${r.name}</div>
-        <div class="room-loc">📍 ${r.floor}</div>
-        <div class="room-meta">
-          <div class="room-meta-item">👥 ${r.capacity} orang</div>
-          <div class="room-meta-item">🏢 ${r.floor}</div>
-        </div>
-        <div class="facility-list">${r.facilities.slice(0,3).map(f => `<span class="facility-tag">${f}</span>`).join('')}${r.facilities.length > 3 ? `<span class="facility-tag">+${r.facilities.length-3}</span>` : ''}</div>
-      </div>
-      <div class="room-footer">
-        <span class="room-next">Booking berikutnya: ${r.nextBooking}</span>
-        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openBookingModal()">Booking</button>
-      </div>
-    </div>
-  `).join('');
-}
+/* MY BOOKINGS */
+pages.mybookings=()=>{
+  const bks=BOOKINGS.filter(b=>b.userId===S.user.id).sort((a,b)=>b.date.localeCompare(a.date)||b.st.localeCompare(a.st));
+  return`<div class="ph"><div class="pt">Booking Saya</div><div class="ps">Semua booking ruangan yang Anda buat.</div></div>
+<div class="cd"><div class="tw"><table class="tb"><thead><tr><th>Ruangan</th><th>Tanggal</th><th>Waktu</th><th>Tujuan</th><th>Status</th><th>Aksi</th></tr></thead><tbody>
+${bks.length===0?'<tr><td colspan="6" style="text-align:center;color:var(--tx3);padding:2rem">Belum ada booking</td></tr>':bks.map(b=>{
+  const r=ROOMS.find(x=>x.id===b.roomId);
+  const needConf=b.date===TODAY&&!b.confirmed;
+  return`<tr>
+<td><div style="display:flex;align-items:center;gap:7px"><div style="width:3px;height:22px;border-radius:2px;background:${r?.color};flex-shrink:0"></div><span style="font-weight:600">${r?.name||'—'}</span></div></td>
+<td style="font-size:12.5px;font-family:var(--mono)">${b.date}</td>
+<td style="font-family:var(--mono);font-size:12px">${b.st}–${b.et}</td>
+<td style="color:var(--tx2)">${b.purpose}</td>
+<td><span class="pi ${b.confirmed?'pig':needConf?'pir':'pia'}">${b.confirmed?'Dikonfirmasi':needConf?'Perlu Konfirmasi':'Menunggu'}</span></td>
+<td><div style="display:flex;gap:5px;flex-wrap:wrap">
+${needConf?`<button class="btn btn-pri btn-sm" onclick="openConfMd(${b.id})">${ico('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>')}Konfirmasi</button>`:''}
+<button class="btn btn-dan btn-sm" onclick="cancelBk(${b.id})">${ico('<polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14H6L5,6"/>')}Batal</button>
+</div></td></tr>`;}).join('')}
+</tbody></table></div></div>`;
+};
 
-function filterRooms(f, el) {
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  renderRooms(f === 'all' ? null : f);
-}
+/* ═══ GOOGLE-STYLE CALENDAR ═══ */
+pages.calendar=()=>{
+  const isA=S.user.role==='admin';
+  const y=S.calY,m=S.calM;
+  const fd=new Date(y,m,1).getDay();
+  const days=new Date(y,m+1,0).getDate();
+  const prefix=`${y}-${String(m+1).padStart(2,'0')}`;
+  const rid=S.calRoom||0;
+  const allBks=BOOKINGS.filter(b=>b.date.startsWith(prefix)&&(isA?true:b.userId===S.user.id)&&(rid===0||b.roomId===rid));
 
-function showRoomDetail(id) {
-  const r = ROOMS.find(x => x.id === id);
-  document.getElementById('rm-title').textContent = r.name;
-  const bs = BOOKINGS.filter(b => b.roomId === id && b.status !== 'cancelled' && b.status !== 'done').slice(0,3);
-  document.getElementById('rm-body').innerHTML = `
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
-      <div style="font-size:48px;">${r.emoji}</div>
-      <div>
-        <div style="font-size:17px;font-weight:600;">${r.name}</div>
-        <div style="font-size:13px;color:var(--gray-500);margin-top:2px;">${r.floor} · Kapasitas ${r.capacity} orang</div>
-      </div>
-    </div>
-    <div style="margin-bottom:14px;">
-      <div style="font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">FASILITAS</div>
-      <div class="facility-list" style="gap:6px;">${r.facilities.map(f => `<span class="facility-tag" style="font-size:12px;padding:4px 10px;">${f}</span>`).join('')}</div>
-    </div>
-    <div>
-      <div style="font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:8px;">JADWAL HARI INI</div>
-      ${bs.length ? bs.map(b => `
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--gray-50);border-radius:var(--radius-sm);margin-bottom:6px;border:1px solid var(--gray-100);">
-          <div>
-            <div style="font-size:13px;font-weight:500;">${b.title}</div>
-            <div style="font-size:11.5px;color:var(--gray-400);margin-top:1px;">${b.start} – ${b.end}</div>
-          </div>
-          ${statusBadge(b.status, b.confirmed)}
-        </div>
-      `).join('') : '<div style="font-size:13px;color:var(--gray-400);padding:12px 0;">Tidak ada booking hari ini</div>'}
-    </div>
-  `;
-  document.getElementById('room-modal').classList.add('open');
-}
-
-// TIMELINE
-function renderTimeline() {
-  const rows = document.getElementById('tl-rows');
-  const startH = 8, endH = 18, total = (endH - startH) * 60;
-  rows.innerHTML = ROOMS.map(room => {
-    const bookings = BOOKINGS.filter(b => b.roomId === room.id && b.date === '2025-04-17' && b.status !== 'cancelled');
-    const blocks = bookings.map(b => {
-      const [sh, sm] = b.start.split(':').map(Number);
-      const [eh, em] = b.end.split(':').map(Number);
-      const startMin = (sh - startH) * 60 + sm;
-      const durMin = (eh - startH) * 60 + em - startMin;
-      const left = (startMin / total) * 100;
-      const width = (durMin / total) * 100;
-      let cls = 'other';
-      if(b.status === 'active' && b.confirmed) cls = 'active';
-      else if(b.status === 'pending' || (b.status === 'active' && !b.confirmed)) cls = 'pending';
-      else if([1,2,3].includes(b.id)) cls = 'mine';
-      return `<div class="tl-booking ${cls}" style="left:${left.toFixed(1)}%;width:${width.toFixed(1)}%;">${b.title}</div>`;
+  let cells='';
+  for(let i=0;i<fd;i++)cells+=`<div class="gcal-cell empty"></div>`;
+  for(let d=1;d<=days;d++){
+    const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dBks=allBks.filter(b=>b.date===ds).sort((a,b)=>a.st.localeCompare(b.st));
+    const isTd=ds===TODAY;
+    const evHtml=dBks.map(b=>{
+      const r=ROOMS.find(x=>x.id===b.roomId);
+      const clr=r?.color||'#1041D4';
+      const txt=hexToLight(clr);
+      return`<div class="gcal-ev" style="background:${clr};color:${txt}" title="${r?.name} · ${b.st}–${b.et} · ${b.uName}: ${b.purpose}">${b.st} ${isA?b.uName.split(' ')[0]:b.purpose.slice(0,16)}</div>`;
     }).join('');
-    return `
-      <div class="tl-room-row">
-        <div class="tl-room-label" title="${room.name}">${room.name}</div>
-        <div class="tl-slots">${blocks}</div>
-      </div>
-    `;
-  }).join('');
-}
-
-// UPCOMING
-function renderUpcoming() {
-  const list = document.getElementById('upcoming-list');
-  const upcoming = BOOKINGS.filter(b => ['upcoming','active','pending'].includes(b.status)).slice(0,4);
-  if(!upcoming.length) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div><div class="empty-text">Belum ada booking mendatang</div></div>';
-    return;
+    cells+=`<div class="gcal-cell${isTd?' today':''}${dBks.length?' has-ev':''}"><div class="gcal-dn">${d}</div>${evHtml}</div>`;
   }
-  list.innerHTML = upcoming.map(b => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--gray-100);">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="width:40px;height:40px;border-radius:var(--radius-sm);background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">${ROOMS.find(r=>r.id===b.roomId)?.emoji||'🚪'}</div>
-        <div>
-          <div style="font-size:13.5px;font-weight:500;color:var(--gray-900);">${b.title}</div>
-          <div style="font-size:12px;color:var(--gray-400);margin-top:1px;">${b.room} · ${b.date === '2025-04-17' ? 'Hari ini' : b.date} · ${b.start}–${b.end}</div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;">
-        ${statusBadge(b.status, b.confirmed)}
-        ${(b.status === 'pending' || (b.status === 'active' && !b.confirmed)) ? `<button class="btn btn-sm btn-success" onclick="switchPage('qrscan')">Scan QR</button>` : ''}
-      </div>
-    </div>
-  `).join('');
+
+  return`<div class="ph"><div class="pt">Kalender Ruangan</div><div class="ps">${isA?'Jadwal booking semua ruangan':'Jadwal booking Anda'}</div></div>
+<div class="rchips">
+<div class="rchip${rid===0?' on':''}" onclick="S.calRoom=0;renderPage()">Semua</div>
+${ROOMS.map(r=>`<div class="rchip${rid===r.id?' on':''}" style="${rid===r.id?`background:${r.color}18;border-color:${r.color};color:${r.color}`:''}" onclick="S.calRoom=${r.id};renderPage()">${r.name}</div>`).join('')}
+</div>
+<div class="gcal">
+<div class="gcal-nav">
+<button class="gcal-nbtn" onclick="prevMonth();renderPage()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg></button>
+<div class="gcal-month">${MONTHS[m]} ${y}</div>
+<button class="gcal-nbtn" onclick="nextMonth();renderPage()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg></button>
+</div>
+<div class="gcal-head">${DAYS.map(d=>`<div class="gcal-dh">${d}</div>`).join('')}</div>
+<div class="gcal-body">${cells}</div>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:.875rem">
+${ROOMS.filter(r=>allBks.some(b=>b.roomId===r.id)).map(r=>`<div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--tx2)"><div style="width:10px;height:10px;border-radius:3px;background:${r.color}"></div>${r.name}</div>`).join('')}
+</div>`;
+};
+
+function hexToLight(hex){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return(0.299*r+0.587*g+0.114*b)>140?'#111':'#fff';
 }
 
-// BOOKINGS TABLE
-function renderBookingsTable(filter) {
-  let list = [...BOOKINGS].reverse();
-  if(filter !== 'all') {
-    if(filter === 'pending') list = list.filter(b => b.status === 'pending' || (b.status === 'active' && !b.confirmed));
-    else if(filter === 'active') list = list.filter(b => b.status === 'active' && b.confirmed);
-    else list = list.filter(b => b.status === filter);
+/* USERS */
+pages.users=()=>`<div class="ph"><div class="pt">Kelola Pengguna</div><div class="ps">Daftar pengguna terdaftar.</div></div>
+<div class="cd"><div class="tw"><table class="tb"><thead><tr><th>Nama</th><th>Email</th><th>Departemen</th><th>Role</th></tr></thead><tbody>
+${USERS.map(u=>`<tr><td><div style="display:flex;align-items:center;gap:9px"><div class="av avsm">${u.ini}</div><span style="font-weight:600">${u.name}</span></div></td><td style="color:var(--tx2)">${u.email}</td><td>${u.dept}</td><td><span class="pi ${u.role==='admin'?'pib':'pig'}">${u.role==='admin'?'Admin':'Karyawan'}</span></td></tr>`).join('')}
+</tbody></table></div></div>`;
+
+/* ═══ ROOM MODALS ═══ */
+function roomFormHtml(rm=null){
+  const c=rm?.color||COLORS[0];
+  return`<div class="fl"><label>Nama Ruangan</label><input id="rN" class="fi" value="${rm?.name||''}" placeholder="Contoh: Ruang Merpati"></div>
+<div class="fr2">
+<div class="fl"><label>Lantai / Lokasi</label><input id="rF" class="fi" value="${rm?.floor||''}" placeholder="Lantai 3"></div>
+<div class="fl"><label>Kapasitas (orang)</label><input id="rC" class="fi" type="number" value="${rm?.cap||''}" min="1" placeholder="10"></div>
+</div>
+<div class="fl"><label>Fasilitas</label><input id="rFc" class="fi" value="${rm?.fac||''}" placeholder="Proyektor · AC · Whiteboard"></div>
+<div class="fl"><label>Warna Label</label><div class="cpalette">${COLORS.map((col,i)=>`<div class="cswatch${col===c?' on':''}" id="sw_${i}" style="background:${col}" onclick="selClr(${i},'${col}')"></div>`).join('')}</div><input type="hidden" id="rCl" value="${c}"></div>`;
+}
+function selClr(i,c){document.querySelectorAll('.cswatch').forEach((el,j)=>el.classList.toggle('on',j===i));$('rCl').value=c;}
+
+function openAddRoom(){
+  $('mr').innerHTML=`<div class="ov" onclick="clMd()"><div class="mo" onclick="event.stopPropagation()">
+<div class="mh"><div><div class="mt">Tambah Ruangan</div><div class="ms">Isi detail ruangan meeting</div></div><button class="mhx" onclick="clMd()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+<div class="mb">${roomFormHtml()}</div>
+<div class="mf"><button class="bmc" onclick="clMd()">Batal</button><button class="bmo" onclick="submitAddRoom()">Tambah Ruangan</button></div>
+</div></div>`;
+}
+
+function openEditRoom(rid){
+  const rm=ROOMS.find(r=>r.id===rid);
+  $('mr').innerHTML=`<div class="ov" onclick="clMd()"><div class="mo" onclick="event.stopPropagation()">
+<div class="mh"><div><div class="mt">Edit ${rm.name}</div><div class="ms">Perbarui detail ruangan</div></div><button class="mhx" onclick="clMd()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+<div class="mb">${roomFormHtml(rm)}</div>
+<div class="mf"><button class="bmc" onclick="clMd()">Batal</button><button class="bmo" onclick="submitEditRoom(${rid})">Simpan Perubahan</button></div>
+</div></div>`;
+}
+
+function submitAddRoom(){
+  const name=$('rN').value.trim(),floor=$('rF').value.trim(),cap=parseInt($('rC').value),fac=$('rFc').value.trim(),color=$('rCl').value;
+  if(!name||!floor||!cap||!fac){toast('Isi semua field terlebih dahulu');return;}
+  ROOMS.push({id:Math.max(...ROOMS.map(r=>r.id))+1,name,floor,cap,fac,color});
+  clMd();toast(`"${name}" berhasil ditambahkan!`,true);renderPage();
+}
+
+function submitEditRoom(rid){
+  const rm=ROOMS.find(r=>r.id===rid);
+  const name=$('rN').value.trim(),floor=$('rF').value.trim(),cap=parseInt($('rC').value),fac=$('rFc').value.trim(),color=$('rCl').value;
+  if(!name||!floor||!cap||!fac){toast('Isi semua field terlebih dahulu');return;}
+  Object.assign(rm,{name,floor,cap,fac,color});
+  clMd();toast('Ruangan berhasil diperbarui!',true);renderPage();
+}
+
+function delRoom(rid){
+  const rm=ROOMS.find(r=>r.id===rid);
+  if(!confirm(`Hapus "${rm.name}"? Semua booking terkait juga akan terhapus.`))return;
+  ROOMS=ROOMS.filter(r=>r.id!==rid);
+  BOOKINGS=BOOKINGS.filter(b=>b.roomId!==rid);
+  toast('Ruangan dihapus.',true);renderPage();buildSidebar();
+}
+
+/* QR + PRINT */
+function openQRModal(rid){
+  const rm=ROOMS.find(r=>r.id===rid);
+  $('mr').innerHTML=`<div class="ov" onclick="clMd()"><div class="mo" style="max-width:380px" onclick="event.stopPropagation()">
+<div class="mh"><div><div class="mt">QR Code — ${rm.name}</div><div class="ms">${rm.floor} · ${rm.cap} orang</div></div><button class="mhx" onclick="clMd()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+<div class="mb">
+<div class="print-area" id="qrPrintArea">
+<div style="text-align:center;margin-bottom:1rem">
+<div style="font-size:13px;font-weight:700;color:var(--tx3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Scan untuk Konfirmasi</div>
+<div style="width:180px;height:180px;border:1px solid var(--bd);border-radius:var(--rad);padding:16px;margin:0 auto">${qrSVG(rid*37,148)}</div>
+<div style="margin-top:1rem"><div style="font-size:16px;font-weight:700;color:var(--n)">${rm.name}</div><div style="font-size:12px;color:var(--tx3);margin-top:3px">${rm.floor} · ${rm.cap} orang</div></div>
+<div style="margin-top:.875rem;padding:.75rem;background:var(--b2);border-radius:8px;font-size:12px;color:var(--b);line-height:1.6">Konfirmasi wajib dalam <strong>20 menit</strong> setelah<br>waktu booking dimulai.</div>
+</div></div>
+</div>
+<div class="mf"><button class="bmc" onclick="clMd()">Tutup</button><button class="bmo" onclick="printQR(${rid})">${ico('<path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>')}Print QR</button></div>
+</div></div>`;
+}
+
+function printQR(rid){
+  const el=$('qrPrintArea');
+  if(!el)return;
+  const content=el.innerHTML;
+  const w=window.open('','_blank','width=500,height=600');
+  w.document.write(`<!DOCTYPE html><html><head><title>QR - ${ROOMS.find(r=>r.id===rid)?.name}</title><style>*{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif}body{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#fff}@media print{body{background:#fff}}</style></head><body>${content}<script>window.onload=()=>{window.print();setTimeout(()=>window.close(),500)}<\/script></body></html>`);
+  w.document.close();
+}
+
+/* ═══ BOOKING MODALS ═══ */
+function bookingFormHtml(b=null,forAdmin=false){
+  const roomOpts=ROOMS.map(r=>`<option value="${r.id}"${b?.roomId===r.id?' selected':''}>${r.name}</option>`).join('');
+  const userOpts=USERS.filter(u=>u.role==='employee').map(u=>`<option value="${u.id}"${b?.userId===u.id?' selected':''}>${u.name} (${u.dept})</option>`).join('');
+  return`${forAdmin?`<div class="fl"><label>Pemohon</label><select id="bkUid" class="fi">${userOpts}</select></div>`:''}
+<div class="fl"><label>Ruangan</label><select id="bkRid" class="fi">${roomOpts}</select></div>
+<div class="fl"><label>Tanggal</label><input id="bkD" class="fi" type="date" value="${b?.date||TODAY}" min="${forAdmin?'':TODAY}"></div>
+<div class="fr2">
+<div class="fl"><label>Jam Mulai</label><select id="bkS" class="fi">${TIMES.map(t=>`<option${(b?.st||'09:00')===t?' selected':''}>${t}</option>`).join('')}</select></div>
+<div class="fl"><label>Jam Selesai</label><select id="bkE" class="fi">${TIMES.map(t=>`<option${(b?.et||'10:00')===t?' selected':''}>${t}</option>`).join('')}</select></div>
+</div>
+<div class="fl"><label>Tujuan Rapat</label><input id="bkP" class="fi" value="${b?.purpose||''}" placeholder="Contoh: Rapat Tim Mingguan"></div>`;
+}
+
+function openBookModal(rid,_unused){
+  $('mr').innerHTML=`<div class="ov" onclick="clMd()"><div class="mo" onclick="event.stopPropagation()">
+<div class="mh"><div><div class="mt">Booking Ruangan</div><div class="ms">${ROOMS.find(r=>r.id===rid)?.name}</div></div><button class="mhx" onclick="clMd()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+<div class="mb">${bookingFormHtml({roomId:rid})}</div>
+<div class="mf"><button class="bmc" onclick="clMd()">Batal</button><button class="bmo" onclick="submitBk(${rid},null,false)">Booking Sekarang</button></div>
+</div></div>`;
+}
+
+function openAdminAddBk(){
+  $('mr').innerHTML=`<div class="ov" onclick="clMd()"><div class="mo mo-lg" onclick="event.stopPropagation()">
+<div class="mh"><div><div class="mt">Tambah Booking</div><div class="ms">Buat booking untuk pengguna tertentu</div></div><button class="mhx" onclick="clMd()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+<div class="mb">${bookingFormHtml(null,true)}</div>
+<div class="mf"><button class="bmc" onclick="clMd()">Batal</button><button class="bmo" onclick="submitAdminBk(null)">Tambah Booking</button></div>
+</div></div>`;
+}
+
+function openAdminEditBk(id){
+  const b=BOOKINGS.find(x=>x.id===id);
+  $('mr').innerHTML=`<div class="ov" onclick="clMd()"><div class="mo mo-lg" onclick="event.stopPropagation()">
+<div class="mh"><div><div class="mt">Edit Booking #${id}</div><div class="ms">Ubah detail booking</div></div><button class="mhx" onclick="clMd()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+<div class="mb">${bookingFormHtml(b,true)}</div>
+<div class="mf"><button class="bmc" onclick="clMd()">Batal</button><button class="bmo" onclick="submitAdminBk(${id})">Simpan Perubahan</button></div>
+</div></div>`;
+}
+
+function submitBk(rid,uid,isAdmin){
+  const date=$('bkD').value,st=$('bkS').value,et=$('bkE').value,purpose=($('bkP').value||'').trim();
+  const realRid=isAdmin?parseInt($('bkRid').value):rid;
+  const realUid=isAdmin?parseInt($('bkUid').value):S.user.id;
+  if(!purpose){toast('Isi tujuan rapat terlebih dahulu');return;}
+  if(st>=et){toast('Jam selesai harus setelah jam mulai');return;}
+  if(BOOKINGS.find(b=>b.roomId===realRid&&b.date===date&&!(et<=b.st||st>=b.et))){toast('Jadwal bentrok dengan booking yang ada');return;}
+  const u=USERS.find(x=>x.id===realUid)||S.user;
+  BOOKINGS.push({id:nxId++,roomId:realRid,userId:realUid,uName:u.name,dept:u.dept,date,st,et,purpose,confirmed:false});
+  clMd();toast('Booking berhasil ditambahkan!',true);renderPage();buildSidebar();
+}
+
+function submitAdminBk(editId){
+  const rid=parseInt($('bkRid').value),uid=parseInt($('bkUid').value);
+  const date=$('bkD').value,st=$('bkS').value,et=$('bkE').value,purpose=($('bkP').value||'').trim();
+  if(!purpose){toast('Isi tujuan rapat terlebih dahulu');return;}
+  if(st>=et){toast('Jam selesai harus setelah jam mulai');return;}
+  if(BOOKINGS.find(b=>b.id!==editId&&b.roomId===rid&&b.date===date&&!(et<=b.st||st>=b.et))){toast('Jadwal bentrok');return;}
+  const u=USERS.find(x=>x.id===uid)||S.user;
+  if(editId){
+    const b=BOOKINGS.find(x=>x.id===editId);
+    Object.assign(b,{roomId:rid,userId:uid,uName:u.name,dept:u.dept,date,st,et,purpose});
+    toast('Booking diperbarui!',true);
+  }else{
+    BOOKINGS.push({id:nxId++,roomId:rid,userId:uid,uName:u.name,dept:u.dept,date,st,et,purpose,confirmed:false});
+    toast('Booking berhasil ditambahkan!',true);
   }
-  const tbody = document.getElementById('bookings-tbody');
-  if(!list.length) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--gray-400);">Tidak ada data booking</td></tr>`;
-    return;
-  }
-  tbody.innerHTML = list.map(b => `
-    <tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span style="font-size:18px;">${ROOMS.find(r=>r.id===b.roomId)?.emoji||'🚪'}</span>
-          <div>
-            <div style="font-weight:500;font-size:13px;">${b.room}</div>
-            <div style="font-size:11px;color:var(--gray-400);">${ROOMS.find(r=>r.id===b.roomId)?.floor||''}</div>
-          </div>
-        </div>
-      </td>
-      <td style="font-size:13px;">${b.date}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12.5px;">${b.start} – ${b.end}</td>
-      <td style="font-size:13px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${b.title}</td>
-      <td>${statusBadge(b.status, b.confirmed)}</td>
-      <td>
-        <div style="display:flex;gap:6px;">
-          ${(b.status === 'pending' || (b.status === 'active' && !b.confirmed)) ? `<button class="btn btn-sm btn-success" onclick="switchPage('qrscan')">Scan QR</button>` : ''}
-          ${b.status === 'upcoming' ? `<button class="btn btn-sm btn-outline" style="color:var(--danger);" onclick="cancelBooking(${b.id})">Batal</button>` : ''}
-        </div>
-      </td>
-    </tr>
-  `).join('');
+  clMd();renderPage();buildSidebar();
 }
 
-function filterBookings(f, el) {
-  document.querySelectorAll('#page-mybookings .filter-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  renderBookingsTable(f);
+/* CONFIRM MODAL */
+function openConfMd(bid){
+  const b=BOOKINGS.find(x=>x.id===bid);
+  const rm=ROOMS.find(r=>r.id===b?.roomId);
+  cSec=30;
+  $('mr').innerHTML=`<div class="ov"><div class="mo" style="max-width:380px">
+<div class="mb" style="text-align:center;padding:2rem 1.5rem 1rem">
+<div class="cfc"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+<div class="mt" style="text-align:center;margin-bottom:4px">Konfirmasi Ruangan</div>
+<div class="ms" style="text-align:center">${rm?.name} · ${b?.st}–${b?.et}</div>
+<div style="margin:1rem auto;width:148px;height:148px;border:1px solid var(--bd);border-radius:var(--rad);padding:12px">${qrSVG(bid*37,124)}</div>
+<div style="font-size:12px;color:var(--tx3);line-height:1.7;margin-bottom:.75rem">Scan QR di atas atau scan QR pada tablet di <strong>${rm?.name}</strong> untuk konfirmasi kehadiran Anda.</div>
+<div class="ctdown" id="cntD">${cSec}s</div>
+<div style="font-size:11.5px;color:var(--tx3)">Waktu tersisa</div>
+</div>
+<div class="mf"><button class="bmc" onclick="cancelConf()">Batal</button><button class="bmo" onclick="doConf(${bid})">Konfirmasi</button></div>
+</div></div>`;
+  cTimer=setInterval(()=>{cSec--;const el=$('cntD');if(el)el.textContent=cSec+'s';if(cSec<=0){clearInterval(cTimer);clMd();}},1000);
+}
+function cancelConf(){clearInterval(cTimer);clMd();}
+function doConf(bid){clearInterval(cTimer);const b=BOOKINGS.find(x=>x.id===bid);if(b)b.confirmed=true;clMd();toast('Ruangan dikonfirmasi!',true);renderPage();buildSidebar();}
+function cancelBk(id){BOOKINGS=BOOKINGS.filter(b=>b.id!==id);toast('Booking dibatalkan.');renderPage();buildSidebar();}
+
+/* ═══ TABLET ═══ */
+function updateTabletClock(){
+  const now=new Date();
+  const tm=$('tabTime');const td=$('tabDate');
+  if(tm)tm.textContent=now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  if(td)td.textContent=now.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 }
 
-function cancelBooking(id) {
-  const b = BOOKINGS.find(x => x.id === id);
-  if(b) { b.status = 'cancelled'; renderBookingsTable('all'); }
-}
+function renderTablet(){
+  const rid=S.tabletRoom;
+  const rm=ROOMS.find(r=>r.id===rid);
+  if(!rm){goTabletLogin();return;}
+  const st=rmSt(rid);
+  const bks=BOOKINGS.filter(b=>b.roomId===rid&&b.date===TODAY).sort((a,b)=>a.st.localeCompare(b.st));
+  const now=new Date();
+  const timeStr=now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  const dateStr=now.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const stStyle=st.cls==='pig'?'background:#DCFCE7;color:#15803D':st.cls==='pir'?'background:#FEE2E2;color:#DC2626':'background:#FEF3C7;color:#D97706';
 
-// QR
-function renderPendingQR() {
-  const list = document.getElementById('pending-qr-list');
-  const pending = BOOKINGS.filter(b => b.status === 'pending' || (b.status === 'active' && !b.confirmed));
-  if(!pending.length) {
-    list.innerHTML = '<div style="text-align:center;padding:30px 0;color:var(--gray-400);font-size:13px;">Tidak ada booking yang menunggu konfirmasi</div>';
-    return;
-  }
-  list.innerHTML = pending.map(b => `
-    <div onclick="selectQR(${b.id})" style="padding:12px;border-radius:var(--radius-sm);border:1px solid var(--gray-200);margin-bottom:8px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--gray-200)'">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:20px;">${ROOMS.find(r=>r.id===b.roomId)?.emoji||'🚪'}</span>
-        <div>
-          <div style="font-size:13px;font-weight:500;">${b.room}</div>
-          <div style="font-size:11.5px;color:var(--gray-400);">${b.title}</div>
-          <div style="font-size:11px;color:var(--warn);font-weight:500;margin-top:2px;">⏰ ${b.start} – ${b.end}</div>
-        </div>
-      </div>
-    </div>
-  `).join('');
+  $('scT').innerHTML=`
+<div class="th">
+<div class="thl"><div class="bico" style="width:38px;height:38px;border-radius:9px"><svg viewBox="0 0 24 24" style="width:18px;height:18px"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg></div>
+<div><div class="tbn">MeetSpace</div><div class="tbs">Sistem Informasi Ruang Meeting</div></div></div>
+<div style="display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap">
+<div class="ttb"><div class="ttm" id="tabTime">${timeStr}</div><div class="ttd" id="tabDate">${dateStr}</div></div>
+<button style="padding:7px 16px;background:var(--w);border:1.5px solid var(--bd);border-radius:var(--rad);font-size:13px;font-weight:600;cursor:pointer;color:var(--tx2)" onclick="exitTablet()">← Keluar</button>
+</div></div>
+<div class="tbody">
+<div class="trh">
+<div class="tra" style="background:${rm.color}"></div>
+<div style="flex:1"><div class="trt">${rm.name}</div><div class="trf">${rm.floor} · ${rm.cap} orang · ${rm.fac}</div></div>
+<div class="trs" style="${stStyle}">${st.lbl}</div>
+</div>
+<div class="tcols">
+<div class="tcd">
+<div class="tct">Jadwal Hari Ini</div>
+${bks.length===0?'<div style="text-align:center;padding:1.5rem;color:var(--tx3);font-size:13px">Tidak ada jadwal hari ini</div>':bks.map(b=>`<div class="tsr">
+<div class="tstime">${b.st}–${b.et}</div>
+<div style="flex:1"><div class="tsn">${b.uName}</div><div class="tsp">${b.purpose} · ${b.dept}</div></div>
+<span class="pi ${b.confirmed?'pig':'pia'}" style="font-size:10.5px">${b.confirmed?'Aktif':'Menunggu'}</span>
+</div>`).join('')}
+</div>
+<div class="tcd">
+<div class="tct">Scan QR untuk Konfirmasi</div>
+<div class="tqc">
+<p style="font-size:12.5px;color:var(--tx2);text-align:center;line-height:1.6">Arahkan kamera ponsel ke QR berikut untuk konfirmasi penggunaan ruangan</p>
+<div style="width:160px;height:160px;border:1px solid var(--bd);border-radius:var(--rad);padding:14px">${qrSVG(rid*37,132)}</div>
+<div class="tql">Konfirmasi wajib dalam <strong>20 menit</strong> setelah waktu booking dimulai.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tft"><span>MeetSpace · Tampilan Tablet</span><span>${rm.name} · ${rm.floor}</span></div>`;
 }
+function exitTablet(){if(S._tClk)clearInterval(S._tClk);goTabletLogin();}
 
-function selectQR(id) {
-  selectedQrBooking = BOOKINGS.find(b => b.id === id);
-  const room = ROOMS.find(r => r.id === selectedQrBooking.roomId);
-  document.getElementById('qr-room-name').textContent = room.name;
-  document.getElementById('qr-room-info').textContent = room.floor + ' · ' + selectedQrBooking.start + ' – ' + selectedQrBooking.end;
-  document.getElementById('qr-empty').style.display = 'none';
-  document.getElementById('qr-display').style.display = 'block';
-  document.getElementById('confirm-success').style.display = 'none';
-  document.getElementById('confirm-btn').style.display = 'block';
-  document.getElementById('qr-countdown-box').style.display = 'block';
-  generateQRPattern(room.id);
-  qrSeconds = 1200;
-  document.getElementById('qr-timer').textContent = '20:00';
-  if(qrTimerInterval) clearInterval(qrTimerInterval);
-  qrTimerInterval = setInterval(() => {
-    qrSeconds--;
-    const m = Math.floor(qrSeconds / 60);
-    const s = qrSeconds % 60;
-    document.getElementById('qr-timer').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-    const topTimer = document.getElementById('topTimer');
-    if(topTimer) topTimer.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-    document.getElementById('topNotif').style.display = 'flex';
-    if(qrSeconds <= 0) {
-      clearInterval(qrTimerInterval);
-      if(selectedQrBooking) selectedQrBooking.status = 'cancelled';
-      document.getElementById('qr-countdown-box').textContent = '❌ Waktu habis. Booking dibatalkan otomatis.';
-      document.getElementById('confirm-btn').style.display = 'none';
-      document.getElementById('topNotif').style.display = 'none';
-      renderPendingQR();
-    }
-  }, 1000);
-}
-
-function generateQRPattern(roomId) {
-  const svg = document.getElementById('qr-svg');
-  const size = 100;
-  const cell = 4;
-  const grid = Math.floor(size / cell);
-  let d = '';
-  // Pseudo-random based on roomId
-  const seed = roomId * 1234567;
-  function rand(i) { return ((seed * (i+1) * 48271) % 100) < 50; }
-  // Finder patterns corners
-  function finder(ox, oy) {
-    for(let y = 0; y < 7; y++) for(let x = 0; x < 7; x++) {
-      const fill = (x===0||x===6||y===0||y===6||(x>=2&&x<=4&&y>=2&&y<=4));
-      if(fill) d += `M${ox+x*cell},${oy+y*cell}h${cell}v${cell}h-${cell}z`;
-    }
-  }
-  finder(4, 4); finder(size-32, 4); finder(4, size-32);
-  // Data modules
-  for(let y = 0; y < grid; y++) for(let x = 0; x < grid; x++) {
-    const inFinder = (x<8&&y<8)||(x>grid-9&&y<8)||(x<8&&y>grid-9);
-    if(!inFinder && rand(y*grid+x)) d += `M${x*cell},${y*cell}h${cell}v${cell}h-${cell}z`;
-  }
-  svg.innerHTML = `<path fill="var(--gray-900)" d="${d}"/>`;
-}
-
-function confirmBooking() {
-  if(!selectedQrBooking) return;
-  clearInterval(qrTimerInterval);
-  selectedQrBooking.confirmed = true;
-  selectedQrBooking.status = 'active';
-  document.getElementById('qr-countdown-box').style.display = 'none';
-  document.getElementById('confirm-btn').style.display = 'none';
-  document.getElementById('confirm-success').style.display = 'block';
-  document.getElementById('topNotif').style.display = 'none';
-  renderPendingQR();
-  renderUpcoming();
-}
-
-// INIT
-renderTimeline();
-renderUpcoming();
-renderRooms();
+/* ═══ INIT ═══ */
+setTimeout(()=>{},50);
 </script>
+</body></html>
