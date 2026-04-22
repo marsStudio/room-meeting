@@ -44,25 +44,36 @@
       padding: 0 24px; height: 60px;
       position: sticky; top: 0; z-index: 100;
     }
+    .hamburger { display: none; background: transparent; border: none; font-size: 24px; cursor: pointer; color: var(--text); }
     .logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--text); display: flex; align-items: center; gap: 8px; }
     .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
     .topbar-nav { display: flex; gap: 4px; margin-left: auto; }
     .tab-btn { padding: 6px 14px; border-radius: 20px; border: none; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all .15s; }
     .tab-btn.active { background: var(--accent); color: #fff; }
     .tab-btn:hover:not(.active) { background: var(--surface2); color: var(--text); }
-    .btn-primary { padding: 8px 18px; background: var(--accent); color: #fff; border: none; border-radius: 20px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background .15s; }
+    
+    .btn-primary { padding: 8px 18px; background: var(--accent); color: #fff; border: none; border-radius: 20px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background .15s; margin-left: auto;}
     .btn-primary:hover { background: var(--accent-hover); }
-    .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #6366F1, #8B5CF6); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 8px; }
+    .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #6366F1, #8B5CF6); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 8px; flex-shrink: 0; }
 
     /* ── LAYOUT ── */
-    .layout { display: flex; height: calc(100vh - 60px); }
+    .layout { display: flex; height: calc(100vh - 60px); position: relative; }
 
     /* ── SIDEBAR ── */
     .sidebar {
       width: 260px; min-width: 260px; background: var(--surface);
       border-right: 1px solid var(--border); overflow-y: auto;
       display: flex; flex-direction: column;
+      z-index: 150;
+      transition: transform 0.3s ease;
     }
+    
+    /* Overlay untuk Mobile Sidebar */
+    .sidebar-overlay {
+      position: fixed; inset: 0; top: 60px; background: rgba(0,0,0,0.4);
+      z-index: 140; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+
     .mini-cal { padding: 20px 16px 12px; }
     .mini-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
     .mini-cal-title { font-size: 13px; font-weight: 600; color: var(--text); }
@@ -114,17 +125,16 @@
     .tl-hours { display: flex; flex: 1; }
     .tl-hour { width: 80px; min-width: 80px; border-right: 1px solid var(--border); padding: 12px 8px; font-size: 11px; font-weight: 600; color: var(--text-light); text-align: center; }
 
-    /* Ditambahkan: position relative agar garis NOW menyangkut di dalam body */
     .tl-body { display: flex; flex-direction: column; min-width: max-content; position: relative; }
     .tl-row { display: flex; border-bottom: 1px solid var(--border); background: var(--surface); transition: background .15s; }
     .tl-row:hover { background: #F8F8F8; }
     
     .tl-room-info { width: 220px; min-width: 220px; border-right: 1px solid var(--border); position: sticky; left: 0; background: inherit; z-index: 40; padding: 14px 20px; display: flex; flex-direction: column; justify-content: center; }
     .tl-room-name { font-size: 14px; font-weight: 600; color: var(--text); }
-    .tl-room-meta { font-size: 11px; color: var(--text-muted); margin-top: 6px; display: flex; align-items: center; gap: 8px; }
+    .tl-room-meta { font-size: 11px; color: var(--text-muted); margin-top: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     
     .tl-lanes { display: flex; flex: 1; position: relative; cursor: pointer; }
-    .tl-lanes:hover::before { content: '+ Klik untuk Booking Ruangan Ini'; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 600; color: var(--accent); opacity: 0.8; z-index: 5; pointer-events: none; }
+    .tl-lanes:hover::before { content: '+ Klik untuk Booking'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 600; color: var(--accent); opacity: 0.8; z-index: 5; pointer-events: none; }
     
     .tl-grid-line { width: 80px; min-width: 80px; border-right: 1px solid var(--border); position: relative; box-sizing: border-box; pointer-events: none; }
     .tl-grid-line::after { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; border-left: 1px dashed var(--border); opacity: 0.4; }
@@ -143,41 +153,19 @@
 
     /* ── USER FRIENDLY "NOW" INDICATOR ── */
     .now-indicator {
-      position: absolute;
-      top: 0; bottom: 0;
-      width: 2px;
-      /* Dibuat putus-putus dan warna biru agar soft */
+      position: absolute; top: 0; bottom: 0; width: 2px;
       background: repeating-linear-gradient(to bottom, rgba(37,99,235,0.4) 0, rgba(37,99,235,0.4) 6px, transparent 6px, transparent 12px);
-      z-index: 45;
-      pointer-events: none;
+      z-index: 45; pointer-events: none;
     }
     .now-badge {
-      position: absolute;
-      top: 8px;
-      left: -42px; /* Ditarik ke tengah */
-      background: var(--accent);
-      color: #fff;
-      font-size: 10px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 20px;
-      white-space: nowrap;
-      box-shadow: 0 2px 6px rgba(37,99,235,0.3);
+      position: absolute; top: 8px; left: -42px; background: var(--accent); color: #fff; font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 20px; white-space: nowrap; box-shadow: 0 2px 6px rgba(37,99,235,0.3);
     }
-    /* Segitiga kecil di atas badge */
     .now-badge::after {
-      content: '';
-      position: absolute;
-      top: -4px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 0 4px 5px 4px;
-      border-style: solid;
-      border-color: transparent transparent var(--accent) transparent;
+      content: ''; position: absolute; top: -4px; left: 50%; transform: translateX(-50%); border-width: 0 4px 5px 4px; border-style: solid; border-color: transparent transparent var(--accent) transparent;
     }
 
     /* ── MODALS & POPOVER ── */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 500; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .2s; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 600; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .2s; }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
     .booking-modal { background: var(--surface); border-radius: 20px; width: 460px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); transform: translateY(12px) scale(.97); transition: all .25s cubic-bezier(.34,1.56,.64,1); }
     .modal-overlay.open .booking-modal { transform: translateY(0) scale(1); }
@@ -201,7 +189,7 @@
     .btn-cancel { flex: 1; padding: 11px; border: 1.5px solid var(--border); background: transparent; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-muted); cursor: pointer; }
     .btn-book { flex: 2; padding: 11px; background: var(--accent); border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; color: #fff; cursor: pointer; }
 
-    .popover { position: fixed; width: 320px; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow-lg); z-index: 600; overflow: hidden; opacity: 0; pointer-events: none; transform: scale(.92); transition: all .18s cubic-bezier(.34,1.2,.64,1); }
+    .popover { position: fixed; width: 320px; max-width: 90vw; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow-lg); z-index: 700; overflow: hidden; opacity: 0; pointer-events: none; transform: scale(.92); transition: all .18s cubic-bezier(.34,1.2,.64,1); }
     .popover.open { opacity: 1; pointer-events: all; transform: scale(1); }
     .pop-header { padding: 16px; color: #fff; position: relative; }
     .pop-header-blue { background: linear-gradient(135deg, #2563EB, #3B82F6); }
@@ -224,18 +212,69 @@
     .pop-btn-primary { background: var(--accent); color: #fff; }
     .pop-btn-ghost { background: var(--surface2); color: var(--text-muted); }
 
-    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 14px; font-weight: 500; z-index: 700; opacity: 0; transition: all .3s; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-lg); pointer-events: none; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 14px; font-weight: 500; z-index: 800; opacity: 0; transition: all .3s; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-lg); pointer-events: none; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .toast-icon { width: 20px; height: 20px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; font-size: 11px; }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+    /* =======================================================
+       MEDIA QUERIES (MOBILE RESPONSIVE)
+       ======================================================= */
+    @media (max-width: 768px) {
+      /* Topbar Mobile */
+      .topbar { padding: 0 16px; gap: 12px; }
+      .hamburger { display: block; }
+      .topbar-nav { display: none; } /* Sembunyikan tab di HP */
+      .btn-primary span { display: none; } /* Sembunyikan tanda "+" */
+      .btn-primary { padding: 8px 14px; font-size: 12px; }
+      .user-avatar { display: none; } /* Sembunyikan avatar di HP untuk hemat ruang */
+
+      /* Sidebar Mobile (Off-canvas) */
+      .sidebar {
+        position: fixed;
+        left: -260px;
+        top: 60px;
+        bottom: 0;
+        box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+      }
+      .sidebar.open { transform: translateX(260px); }
+      .sidebar-overlay.open { opacity: 1; pointer-events: all; }
+
+      /* Cal Header Mobile */
+      .cal-header { padding: 12px 16px; flex-wrap: wrap; justify-content: space-between; }
+      .cal-period { font-size: 14px; min-width: auto; text-align: center; margin: 0 auto; order: -1; width: 100%; margin-bottom: 8px;}
+      .view-toggle { display: none; }
+
+      /* Timeline Mobile adjustments */
+      .tl-corner { width: 100px; min-width: 100px; padding: 12px 8px; font-size: 10px; }
+      .tl-room-info { width: 100px; min-width: 100px; padding: 12px 8px; }
+      .tl-room-name { font-size: 12px; }
+      .tl-room-meta { flex-direction: column; align-items: flex-start; gap: 2px; font-size: 10px; }
+      .tl-hour { width: 60px; min-width: 60px; font-size: 10px; padding: 12px 4px; }
+      .tl-grid-line { width: 60px; min-width: 60px; }
+      
+      .ev-title { font-size: 10px; }
+      .ev-org { display: none; } /* Sembunyikan nama pemesan agar pas di kotak yang lebih kecil */
+      .tl-event { padding: 4px 6px; }
+      
+      .now-badge { font-size: 9px; padding: 3px 6px; left: -32px; }
+
+      /* Modal Mobile adjustments */
+      .form-row { flex-direction: column; gap: 6px; }
+      .time-slots-grid { grid-template-columns: repeat(3, 1fr); }
+      .booking-modal { max-height: 80vh; }
+      .modal-body { padding: 16px; }
+      .modal-footer { padding: 0 16px 16px; }
+    }
   </style>
 </head>
 <body>
 
   <div class="topbar">
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
     <div class="logo"><div class="logo-dot"></div>MeetSpace</div>
     <div class="topbar-nav">
       <button class="tab-btn active">Kalender</button>
@@ -249,7 +288,10 @@
   </div>
 
   <div class="layout">
-    <div class="sidebar">
+    
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
       <div class="mini-cal">
         <div class="mini-cal-header">
           <span class="mini-cal-title">April 2026</span>
@@ -288,12 +330,12 @@
 
     <div class="cal-main">
       <div class="cal-header">
+        <div class="cal-period" id="currentDateDisplay">Rabu, 22 April 2026</div>
         <div class="cal-nav">
           <button class="cal-nav-btn" onclick="changeDay(-1)">‹</button>
           <button class="btn-today" onclick="setToday()">Hari Ini</button>
           <button class="cal-nav-btn" onclick="changeDay(1)">›</button>
         </div>
-        <div class="cal-period" id="currentDateDisplay">Rabu, 22 April 2026</div>
         <div class="view-toggle">
           <button class="view-btn active">Timeline Ruangan</button>
         </div>
@@ -301,7 +343,7 @@
 
       <div class="timeline" id="timelineContainer">
         <div class="tl-header-row">
-          <div class="tl-corner">DAFTAR RUANGAN</div>
+          <div class="tl-corner">RUANGAN</div>
           <div class="tl-hours" id="tlHours">
             </div>
         </div>
@@ -432,6 +474,12 @@
       renderTimeline();
     }
 
+    // ── MOBILE SIDEBAR TOGGLE ──
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebarOverlay').classList.toggle('open');
+    }
+
     // ── RENDER MINI CALENDAR ──
     function renderMiniCal() {
       const grid = document.getElementById('miniGrid');
@@ -449,7 +497,7 @@
         if(isSelected) cls += " selected";
         if(hasEvent) cls += " has-event";
         
-        html += `<div class="${cls}" ${isCurrentWeek ? `onclick="selectDate(${dayIdx})"` : ''}>${i}</div>`;
+        html += `<div class="${cls}" ${isCurrentWeek ? `onclick="selectDate(${dayIdx}); if(window.innerWidth <= 768) toggleSidebar();"` : ''}>${i}</div>`;
       }
       grid.innerHTML = html;
     }
@@ -523,7 +571,7 @@
         html += `<div style="padding:40px; text-align:center; color:var(--text-muted); font-size:14px;">Tidak ada ruangan yang sesuai filter.</div>`;
       }
 
-      // --- BAGIAN INDIKATOR WAKTU ("NOW LINE") YANG SUDAH DIPERBAIKI ---
+      // "NOW" Indicator
       if (currentDateIdx === 2) {
         const now = new Date();
         const h = now.getHours();
@@ -532,9 +580,12 @@
         const timeStr = `${pad(h)}:${pad(m)}`;
 
         if (mins >= 0 && mins <= TOTAL_MINS) {
-          // Hanya inject 1 garis untuk seluruh tabel
+          // Responsive check to adjust left positioning correctly
+          const isMobile = window.innerWidth <= 768;
+          const cornerWidth = isMobile ? 100 : 220; 
+          
           html += `
-            <div class="now-indicator" style="left: calc(220px + (100% - 220px) * (${mins} / ${TOTAL_MINS}));">
+            <div class="now-indicator" style="left: calc(${cornerWidth}px + (100% - ${cornerWidth}px) * (${mins} / ${TOTAL_MINS}));">
               <div class="now-badge">🕒 Saat ini ${timeStr}</div>
             </div>
           `;
@@ -543,6 +594,11 @@
 
       body.innerHTML = html;
     }
+
+    // Update timeline and now indicator on resize
+    window.addEventListener('resize', () => {
+      renderTimeline(); 
+    });
 
     // ── BOOKING MODAL ──
     const TIME_SLOTS_LIST = [];
@@ -633,8 +689,17 @@
       const rect = e.target.getBoundingClientRect();
       let left = e.clientX + 10;
       let top = e.clientY + 10;
-      if (left + 320 > window.innerWidth) left = window.innerWidth - 330;
-      if (top + 250 > window.innerHeight) top = window.innerHeight - 260;
+      
+      // Responsive adjustments for popover
+      if (window.innerWidth <= 768) {
+        left = (window.innerWidth - pop.offsetWidth) / 2;
+        if(left < 10) left = 10;
+        top = (window.innerHeight - pop.offsetHeight) / 2;
+      } else {
+        if (left + 320 > window.innerWidth) left = window.innerWidth - 330;
+        if (top + 250 > window.innerHeight) top = window.innerHeight - 260;
+      }
+      
       pop.style.left = left + 'px';
       pop.style.top = top + 'px';
       pop.classList.add('open');
