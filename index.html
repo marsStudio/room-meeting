@@ -106,6 +106,7 @@ input,select,textarea{font-family:inherit;}
 .mcd.today::after{background:rgba(255,255,255,.6);}
 .mcd.sel{background:var(--blue-bg);color:var(--blue);font-weight:700;}
 .mcd.sel::after{background:var(--blue);}
+.mcd-month-lbl{grid-column:1/-1;font-size:10px;font-weight:700;color:var(--blue);padding:4px 2px 2px;text-transform:uppercase;letter-spacing:.5px;}
 .sdiv{height:1px;background:var(--bd);margin:6px 14px;}
 .sb-sec{padding:12px 14px 4px;}
 .sb-lbl{font-size:10px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px;}
@@ -133,14 +134,18 @@ input[type=checkbox]{accent-color:var(--blue);}
 .legend-dot{width:8px;height:8px;border-radius:50%;}
 .timeline-wrap{flex:1;overflow:auto;position:relative;}
 .tl-sticky-hdr{position:sticky;top:0;z-index:50;display:flex;background:var(--surface);border-bottom:1px solid var(--bd);min-width:max-content;}
-.tl-corner{width:224px;min-width:224px;border-right:1px solid var(--bd);position:sticky;left:0;background:var(--surface);z-index:55;padding:10px 18px;display:flex;align-items:center;font-size:10px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.6px;}
+.tl-corner{width:200px;min-width:200px;border-right:1px solid var(--bd);position:sticky;left:0;background:var(--surface);z-index:55;padding:10px 14px;display:flex;align-items:center;font-size:10px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.6px;}
 .tl-hour-row{display:flex;flex:1;}
-.tl-h{width:88px;min-width:88px;border-right:1px solid var(--bd-2);padding:10px 8px;font-size:11px;font-weight:600;color:var(--t4);text-align:center;}
+.tl-h{width:44px;min-width:44px;border-right:1px solid var(--bd-2);padding:6px 4px;font-size:10px;font-weight:600;color:var(--t4);text-align:center;display:flex;align-items:center;justify-content:center;}
+.tl-h-hr{color:var(--t3);font-weight:700;font-size:10px;}
+.tl-h-hf{color:var(--t4);font-size:9px;}
+.tl-grid-cell{width:44px;min-width:44px;border-right:1px solid var(--bd-2);position:relative;cursor:pointer;}
+.tl-grid-cell.past-slot{background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(0,0,0,.018) 4px,rgba(0,0,0,.018) 8px);cursor:default;}
 .tl-body{display:flex;flex-direction:column;min-width:max-content;}
 .tl-row{display:flex;border-bottom:1px solid var(--bd-2);background:var(--surface);min-height:68px;transition:background .12s;}
 .tl-row:last-child{border-bottom:none;}
 .tl-row:hover{background:#FAFAFA;}
-.tl-room{width:224px;min-width:224px;border-right:1px solid var(--bd);position:sticky;left:0;background:inherit;z-index:30;padding:12px 18px;display:flex;flex-direction:column;justify-content:center;}
+.tl-room{width:200px;min-width:200px;border-right:1px solid var(--bd);position:sticky;left:0;background:inherit;z-index:30;padding:10px 14px;display:flex;flex-direction:column;justify-content:center;}
 .tl-rname{font-size:13px;font-weight:700;color:var(--t1);}
 .tl-rmeta{display:flex;align-items:center;gap:6px;margin-top:4px;flex-wrap:wrap;}
 .fbadge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;}
@@ -154,11 +159,9 @@ input[type=checkbox]{accent-color:var(--blue);}
 .avail-dot.busy{background:var(--red);}
 .avail-dot.partial{background:var(--amber);}
 .tl-lanes{flex:1;position:relative;display:flex;}
-.tl-grid-cell{width:88px;min-width:88px;border-right:1px solid var(--bd-2);position:relative;cursor:pointer;}
-.tl-grid-cell::after{content:'';position:absolute;top:0;bottom:0;left:50%;border-left:1px dashed var(--bd-2);pointer-events:none;}
-.tl-grid-cell:hover{background:rgba(18,89,195,.04);}
-.tl-grid-cell:hover::before{content:attr(data-time);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:10px;font-weight:700;color:var(--blue);white-space:nowrap;pointer-events:none;}
-.hover-hint{position:absolute;top:50%;left:16px;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--blue);opacity:0;transition:opacity .15s;pointer-events:none;white-space:nowrap;}
+.tl-grid-cell:hover:not(.past-slot){background:rgba(18,89,195,.04);}
+.tl-grid-cell:hover:not(.past-slot)::before{content:attr(data-time);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;font-weight:700;color:var(--blue);white-space:nowrap;pointer-events:none;}
+.hover-hint{position:absolute;top:50%;left:8px;transform:translateY(-50%);font-size:10px;font-weight:600;color:var(--blue);opacity:0;transition:opacity .15s;pointer-events:none;white-space:nowrap;z-index:2;background:rgba(234,241,251,.85);padding:2px 8px;border-radius:10px;backdrop-filter:blur(2px);}
 .tl-lanes:hover .hover-hint{opacity:1;}
 .tl-ev{position:absolute;top:6px;bottom:6px;border-radius:var(--r1);padding:5px 8px;overflow:hidden;cursor:pointer;z-index:10;border-left:3px solid transparent;transition:all .15s;box-shadow:var(--s1);display:flex;flex-direction:column;justify-content:center;}
 .tl-ev:hover{transform:translateY(-1px);box-shadow:var(--s3);z-index:20;}
@@ -172,8 +175,23 @@ input[type=checkbox]{accent-color:var(--blue);}
 .ev-badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;margin-top:2px;display:inline-block;}
 .ev-mine{background:rgba(18,89,195,.15);color:var(--blue);}
 .ev-other{background:rgba(0,0,0,.06);color:var(--t3);}
-.now-line{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:45;pointer-events:none;}
-.now-badge-wrap{position:absolute;top:4px;left:-30px;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap;box-shadow:0 2px 6px rgba(255,59,48,.3);}
+/* now indicator — pill di atas, garis tipis ke bawah */
+.now-pill{
+  position:absolute;top:0;left:0;
+  transform:translateX(-50%);
+  background:var(--red);color:#fff;
+  font-size:10px;font-weight:700;
+  padding:3px 10px;border-radius:20px;
+  white-space:nowrap;
+  box-shadow:0 2px 8px rgba(255,59,48,.45);
+  border:2px solid #fff;
+  z-index:2;
+}
+.now-line-fade{
+  position:absolute;top:24px;left:0;bottom:0;
+  width:2px;transform:translateX(-50%);
+  background:linear-gradient(to bottom,rgba(255,59,48,.75) 0%,rgba(255,59,48,.08) 100%);
+}
 /* past date overlay */
 .past-overlay{position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(0,0,0,.015) 4px,rgba(0,0,0,.015) 8px);pointer-events:none;z-index:5;}
 
@@ -326,8 +344,93 @@ tr:hover td{background:var(--surface-2);}
 /* ─── CONFIRM ROOM (karyawan) ─── */
 .confirm-room-banner{padding:10px 14px;background:var(--amber-bg);border-radius:var(--r2);font-size:12px;color:var(--t2);border-left:3px solid var(--amber);margin-bottom:12px;display:none;}
 .confirm-room-banner.show{display:block;}
+/* ─── MOBILE RESPONSIVE ─── */
+@media (max-width: 768px) {
+  :root { --sb-w:0px; --nav-h:52px; }
+  body { overflow:auto; }
+  .screen.active { flex-direction:column; }
+  .login-card { padding:28px 20px; border-radius:var(--r4); }
+  
+  /* Topnav mobile */
+  .topnav { padding:0 12px; gap:6px; }
+  .tn-logo-text { display:none; }
+  .tn-tabs { margin-left:4px; }
+  .tn-tab { padding:5px 10px; font-size:12px; }
+  .btn-booking-top { padding:6px 12px; font-size:12px; }
+  .tn-uname { display:none; }
+  .tn-role-badge { display:none; }
+  .btn-logout { display:none; }
+  
+  /* App body */
+  .app-body { flex-direction:column; overflow:visible; height:auto; }
+  
+  /* Sidebar — collapsed to horizontal strip on mobile */
+  .sidebar { 
+    width:100%; min-width:0; border-right:none; 
+    border-bottom:1px solid var(--bd); 
+    flex-direction:row; overflow-x:auto; overflow-y:hidden;
+    flex-wrap:nowrap; flex-shrink:0; max-height:none; padding:0;
+  }
+  .mc-wrap { display:none; }
+  .sdiv { display:none; }
+  .sb-sec:first-of-type { display:none; } /* hide capacity filter on mobile */
+  .sb-sec { 
+    padding:8px 12px; display:flex; flex-direction:row; 
+    align-items:center; gap:8px; white-space:nowrap; min-width:max-content;
+  }
+  .sb-lbl { margin-bottom:0; }
+  .floor-rows { flex-direction:row; gap:4px; }
+  .floor-row { padding:5px 10px; }
+  .floor-name { font-size:12px; }
+  .floor-ct { display:none; }
+  .pip { display:none; }
+  
+  /* Calendar area */
+  .cal-area { overflow:hidden; }
+  .cal-bar { padding:8px 10px; flex-wrap:wrap; gap:6px; }
+  .cal-period { font-size:13px; }
+  .legend { display:none; }
+  
+  /* Timeline — horizontal scroll */
+  .timeline-wrap { overflow:auto; -webkit-overflow-scrolling:touch; }
+  .tl-corner { width:120px; min-width:120px; padding:6px 8px; font-size:9px; }
+  .tl-room { width:120px; min-width:120px; padding:8px 10px; }
+  .tl-rname { font-size:12px; }
+  .tl-rmeta { display:none; }
+  .eq-icons { display:none; }
+  .cap-badge { display:none; }
+  .tl-row { min-height:52px; }
+  .hover-hint { display:none; }
+  
+  /* Modal */
+  .overlay { padding:0; align-items:flex-end; }
+  .modal { max-width:100%; border-radius:var(--r5) var(--r5) 0 0; max-height:88vh; }
+  .confirm-dlg { border-radius:var(--r5) var(--r5) 0 0; }
+  .profile-modal { border-radius:var(--r5) var(--r5) 0 0; }
+  
+  /* Panels */
+  .panel-page { padding:14px; }
+  .summary-cards { gap:8px; }
+  .sum-card { min-width:100px; padding:12px; }
+  .sum-card-val { font-size:20px; }
+  .tbl-wrap { overflow-x:auto; }
+  table { min-width:560px; }
+  
+  /* Popover */
+  .pop { width:calc(100vw - 24px); left:12px !important; top:auto !important; bottom:80px; }
+  
+  /* Toast */
+  .toast { bottom:16px; max-width:calc(100vw - 32px); text-align:center; }
+  
+  /* Mini cal nav buttons visible */
+  .mc-nav { display:flex; }
+}
+@media (max-width:480px) {
+  .tn-tab:not(.on) { display:none; }
+  .tn-tab.on { display:flex; }
+  .cal-navs .cnbtn:first-child { display:none; } /* hide prev on very small */
+}
 </style>
-</head>
 <body>
 
 <!-- LOGIN -->
@@ -474,7 +577,7 @@ tr:hover td{background:var(--surface-2);}
             <span class="tbl-title" id="adminBookTitle">Semua Booking</span>
             <div class="filter-bar">
               <input type="date" class="filter-inp" id="adminDateFilter" onchange="renderAdminBookings()">
-              <span style="font-size:12px;color:var(--t3)">⚡ Auto-release 30 menit</span>
+              <span style="font-size:12px;color:var(--t3)">⚡ Auto-release 15 menit</span>
               <button class="btn-sm btn-primary" onclick="openAdminBookingModal()">+ Booking untuk Karyawan</button>
             </div>
           </div>
@@ -514,8 +617,9 @@ tr:hover td{background:var(--surface-2);}
         📌 <strong>Ketentuan Booking:</strong><br>
         • Slot waktu minimal <strong>30 menit</strong>, maksimal <strong>3 jam</strong> per booking<br>
         • Jam operasional: <strong>08:00 – 20:00</strong><br>
-        • Auto-release jika tidak check-in dalam <strong>30 menit</strong> setelah waktu mulai<br>
-        • Maksimal <strong>1 booking aktif</strong> per orang dalam waktu bersamaan
+        • Auto-release jika tidak check-in dalam <strong>15 menit</strong> setelah waktu mulai<br>
+        • Boleh booking <strong>lebih dari 1 ruangan</strong> asal jam tidak bertabrakan<br>
+        • Maksimal booking <strong>2 minggu ke depan</strong>
       </div>
       <div class="fg">
         <label class="fg-lbl">Pilih Ruangan</label>
@@ -529,11 +633,11 @@ tr:hover td{background:var(--surface-2);}
       <div class="frow">
         <div class="fg">
           <label class="fg-lbl">Jam Mulai</label>
-          <select class="fs" id="bStart" onchange="validateBookingTime()"></select>
+          <select class="fs" id="bStart" onchange="updateRoomInfo()"></select>
         </div>
         <div class="fg">
           <label class="fg-lbl">Jam Selesai</label>
-          <select class="fs" id="bEnd" onchange="validateBookingTime()"></select>
+          <select class="fs" id="bEnd" onchange="updateRoomInfo()"></select>
         </div>
       </div>
       <div class="conflict-box" id="conflictBox"></div>
@@ -676,32 +780,47 @@ const USERS=[
   {id:'admin', pass:'admin123', name:'Admin Sistem',   nik:'ADM001', div:'IT / Sys Admin', role:'admin',   email:'admin@company.co.id'},
 ];
 
-// date: 0=Mon20, 1=Tue21, 2=Wed22(today), 3=Thu23, 4=Fri24, 5=Sat25, 6=Sun26
+// date index: 0=today(Apr24), 1=Apr25, 2=Apr26, 3=Apr27 etc
 // status: 'pending'=menunggu konfirmasi, 'active'=dikonfirmasi/aktif, 'done'=selesai, 'cancelled'=dibatalkan
 let BOOKINGS=[
-  {id:1,userId:'siti', roomName:'JAKARTA',   title:'Sprint Planning',     date:2,sh:9, sm:0, eh:10,em:30,att:8, note:'',status:'active',   color:'b'},
-  {id:2,userId:'siti', roomName:'BALI',      title:'1:1 Review',          date:2,sh:9, sm:0, eh:10,em:0, att:2, note:'',status:'active',   color:'g'},
-  {id:3,userId:'dewi', roomName:'PONTIANAK', title:'Design Sync',         date:2,sh:9, sm:15,eh:11,em:0, att:5, note:'',status:'active',   color:'p'},
-  {id:4,userId:'rudi', roomName:'MADIUN',    title:'Vendor Call',         date:2,sh:9, sm:30,eh:11,em:30,att:6, note:'',status:'active',   color:'t'},
-  {id:5,userId:'mega', roomName:'SURABAYA',  title:'Budget Meeting',      date:2,sh:10,sm:0, eh:11,em:0, att:5, note:'',status:'active',   color:'a'},
-  {id:6,userId:'budi', roomName:'JAKARTA',   title:'Town Hall',           date:2,sh:13,sm:0, eh:15,em:0, att:35,note:'',status:'pending',  color:'b'},
-  {id:7,userId:'user', roomName:'BALI',      title:'Client Pitch',        date:2,sh:14,sm:0, eh:16,em:0, att:4, note:'',status:'pending',  color:'g'},
-  {id:8,userId:'user', roomName:'KENDARI',   title:'IT Support',          date:1,sh:9, sm:0, eh:10,em:0, att:3, note:'',status:'done',     color:'p'},
-  {id:9,userId:'user', roomName:'BATAM',     title:'Team Retrospective',  date:0,sh:14,sm:0, eh:15,em:30,att:7, note:'',status:'done',     color:'t'},
-  {id:10,userId:'siti',roomName:'KEDIRI',    title:'Engineering Sync',    date:3,sh:10,sm:0, eh:11,em:30,att:6, note:'',status:'pending',  color:'p'},
+  {id:1,userId:'siti', roomName:'JAKARTA',   title:'Sprint Planning',     date:0,sh:9, sm:0, eh:10,em:30,att:8, note:'',status:'active',   color:'b'},
+  {id:2,userId:'siti', roomName:'BALI',      title:'1:1 Review',          date:0,sh:11,sm:0, eh:12,em:0, att:2, note:'',status:'active',   color:'g'},
+  {id:3,userId:'dewi', roomName:'PONTIANAK', title:'Design Sync',         date:0,sh:9, sm:30,eh:11,em:0, att:5, note:'',status:'active',   color:'p'},
+  {id:4,userId:'rudi', roomName:'MADIUN',    title:'Vendor Call',         date:0,sh:9, sm:30,eh:11,em:30,att:6, note:'',status:'active',   color:'t'},
+  {id:5,userId:'mega', roomName:'SURABAYA',  title:'Budget Meeting',      date:0,sh:13,sm:0, eh:14,em:0, att:5, note:'',status:'active',   color:'a'},
+  {id:6,userId:'budi', roomName:'JAKARTA',   title:'Town Hall',           date:0,sh:14,sm:0, eh:16,em:0, att:35,note:'',status:'pending',  color:'b'},
+  {id:7,userId:'user', roomName:'BALI',      title:'Client Pitch',        date:0,sh:15,sm:0, eh:17,em:0, att:4, note:'',status:'pending',  color:'g'},
+  {id:8,userId:'user', roomName:'KENDARI',   title:'IT Support',          date:1,sh:9, sm:0, eh:10,em:0, att:3, note:'',status:'active',   color:'p'},
+  {id:9,userId:'user', roomName:'BATAM',     title:'Team Retrospective',  date:3,sh:14,sm:0, eh:15,em:30,att:7, note:'',status:'active',   color:'t'},
+  {id:10,userId:'siti',roomName:'KEDIRI',    title:'Engineering Sync',    date:2,sh:10,sm:0, eh:11,em:30,att:6, note:'',status:'pending',  color:'p'},
 ];
 let nextBid=11;
 
 /* ══════════════════════════════════════════
    STATE & CONSTANTS
 ══════════════════════════════════════════ */
-let currentUser=null, currentRole='karyawan', currentDateIdx=2, popOpen=false, dlgAction=null, roomConfirmId=null;
-const TODAY_IDX=2; // Apr 22 = index 2
+let currentUser=null, currentRole='karyawan', currentDateIdx=0, popOpen=false, dlgAction=null, roomConfirmId=null;
+const TODAY_IDX=0; // today = index 0
 
 const DAYS_STR=['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
-const DATES=[20,21,22,23,24,25,26];
-// Kalender: 08:00 sampai 20:00 => 13 jam header (tl-h dari 08..19 = 12 sel)
-const HOURS=Array.from({length:13},(_,i)=>i+8); // 08..20
+// Dynamic date system: today = April 24, 2026 (index 0 = today)
+// Support 14 days forward (2 weeks), dates are Apr 24..May 7
+const TODAY_BASE={year:2026,month:4,day:24};
+function addDays(base,n){
+  const d=new Date(base.year,base.month-1,base.day+n);
+  return {year:d.getFullYear(),month:d.getMonth()+1,day:d.getDate()};
+}
+function fmtDate(d){return `${d.year}-${pad(d.month)}-${pad(d.day)}`;}
+function idxToDate(idx){return addDays(TODAY_BASE,idx);}
+function getDayStr(idx){const d=new Date(TODAY_BASE.year,TODAY_BASE.month-1,TODAY_BASE.day+idx);return DAYS_STR[d.getDay()===0?6:d.getDay()-1];}
+function getDateLabel(idx){const d=idxToDate(idx);const mn=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];return `${getDayStr(idx)}, ${d.day} ${mn[d.month-1]} ${d.year}`;}
+const MAX_BOOKING_IDX=13; // max 2 minggu ke depan (index 0..13)
+const DATES=Array.from({length:14},(_,i)=>idxToDate(i).day);
+// For legacy compatibility
+const idxToDateStr=idx=>fmtDate(idxToDate(idx));
+const dateStrToIdx=s=>{const parts=s.split('-');const target=new Date(parseInt(parts[0]),parseInt(parts[1])-1,parseInt(parts[2]));const base=new Date(TODAY_BASE.year,TODAY_BASE.month-1,TODAY_BASE.day);return Math.round((target-base)/(1000*60*60*24));};
+
+const HOURS=Array.from({length:25},(_,i)=>({h:Math.floor((i)/2)+8,m:(i%2)*30})).filter(x=>x.h<20||(x.h===20&&x.m===0)); // 08:00..20:00
 const TOTAL_MINS=12*60;
 const FCLS={'22ND FLOOR':'f22','23RD FLOOR':'f23','25TH FLOOR':'f25'};
 const ECLS={b:'ev-b',p:'ev-p',t:'ev-t',g:'ev-g',a:'ev-a'};
@@ -713,9 +832,7 @@ const pad=n=>String(n).padStart(2,'0');
 const toM=s=>parseInt(s.split(':')[0])*60+parseInt(s.split(':')[1]);
 const getUserName=id=>{const u=USERS.find(x=>x.id===id);return u?u.name:'Unknown';};
 const getUserDiv=id=>{const u=USERS.find(x=>x.id===id);return u?u.div:'';};
-// Date string from dateIdx: 2026-04-20, 21, ...
-const idxToDateStr=idx=>`2026-04-${String(20+idx).padStart(2,'0')}`;
-const dateStrToIdx=s=>{const d=parseInt(s.split('-')[2]);return d-20;};
+
 
 /* ══════════════════════════════════════════
    LOGIN
@@ -763,8 +880,8 @@ function initApp(){
   buildNavTabs();
   document.getElementById('loginScreen').classList.remove('active');
   document.getElementById('appScreen').classList.add('active');
-  // admin date filter default = today
   document.getElementById('adminDateFilter').value=idxToDateStr(TODAY_IDX);
+  document.getElementById('calPeriod').textContent=getDateLabel(TODAY_IDX);
   renderMiniCal(); renderTimeHeaders(); renderTimeline(); setToday();
 }
 
@@ -801,34 +918,65 @@ function showTab(tab,el){
 ══════════════════════════════════════════ */
 function renderMiniCal(){
   const grid=document.getElementById('mcGrid');
-  let h='<div class="mcd hdr">S</div><div class="mcd hdr">M</div><div class="mcd hdr">T</div><div class="mcd hdr">W</div><div class="mcd hdr">T</div><div class="mcd hdr">F</div><div class="mcd hdr">S</div>';
-  const offset=3;
-  for(let i=0;i<offset;i++) h+=`<div class="mcd oth">${31-offset+1+i}</div>`;
-  for(let d=1;d<=30;d++){
-    const isWeek=(d>=20&&d<=26);
-    const di=d-20;
-    const isPast=isWeek&&di<TODAY_IDX;
-    const isSel=isWeek&&di===currentDateIdx;
-    const hasEv=isWeek&&BOOKINGS.some(b=>b.date===di&&(b.status==='active'||b.status==='pending'));
-    let cls='mcd'+(hasEv?' dot':'');
-    if(d===22) cls='mcd today';
-    else if(isPast) cls+=' past';
-    else if(isSel) cls+=' sel';
-    // clickable only if not past and is in our week
-    const clickable=isWeek&&!isPast||di===TODAY_IDX;
-    h+=`<div class="${cls}"${isWeek&&(di>=TODAY_IDX)?` onclick="selectDate(${di})"`:''}>${d}</div>`;
+  const todayDate=idxToDate(0);
+  const endDate=idxToDate(MAX_BOOKING_IDX);
+  // Determine if we need to show 2 months
+  const showTwoMonths=(todayDate.month!==endDate.month||todayDate.year!==endDate.year);
+  const mn=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+
+  // Build days for current month
+  function buildMonthCells(year,month){
+    const firstDay=new Date(year,month-1,1);
+    const daysInMonth=new Date(year,month,0).getDate();
+    const startOffset=(firstDay.getDay()+6)%7;
+    let h='';
+    for(let i=0;i<startOffset;i++) h+=`<div class="mcd oth"></div>`;
+    for(let d=1;d<=daysInMonth;d++){
+      const thisDate={year,month,day:d};
+      const idx=dateStrToIdx(fmtDate(thisDate));
+      const isToday=idx===0;
+      const isSel=idx===currentDateIdx;
+      const isPast=idx<0;
+      const isFutureLocked=idx>MAX_BOOKING_IDX;
+      const hasEv=idx>=0&&idx<=MAX_BOOKING_IDX&&BOOKINGS.some(b=>b.date===idx&&(b.status==='active'||b.status==='pending'));
+      let cls='mcd';
+      if(isToday) cls='mcd today';
+      else if(isPast||isFutureLocked) cls+=' past';
+      else if(isSel) cls+=' sel';
+      if(hasEv&&!isToday) cls+=' dot';
+      const clickable=idx>=0&&idx<=MAX_BOOKING_IDX;
+      h+=`<div class="${cls}"${clickable?` onclick="selectDate(${idx})"`:''} title="${isFutureLocked?'Maks. 2 minggu ke depan':''}">${d}</div>`;
+    }
+    const total=startOffset+daysInMonth;
+    const rem=total%7===0?0:7-(total%7);
+    for(let i=1;i<=rem;i++) h+=`<div class="mcd oth">${i}</div>`;
+    return h;
   }
-  for(let i=1;i<=5;i++) h+=`<div class="mcd oth">${i}</div>`;
-  grid.innerHTML=h;
+
+  const dayHdrs='<div class="mcd hdr">S</div><div class="mcd hdr">M</div><div class="mcd hdr">T</div><div class="mcd hdr">W</div><div class="mcd hdr">T</div><div class="mcd hdr">F</div><div class="mcd hdr">S</div>';
+  if(!showTwoMonths){
+    document.getElementById('mcTitle').textContent=`${mn[todayDate.month-1]} ${todayDate.year}`;
+    grid.innerHTML=dayHdrs+buildMonthCells(todayDate.year,todayDate.month);
+  } else {
+    document.getElementById('mcTitle').textContent=`${mn[todayDate.month-1]} – ${mn[endDate.month-1]} ${endDate.year}`;
+    grid.innerHTML=
+      `<div class="mcd-month-lbl">${mn[todayDate.month-1]}</div>`+
+      dayHdrs+buildMonthCells(todayDate.year,todayDate.month)+
+      `<div class="mcd-month-lbl">${mn[endDate.month-1]}</div>`+
+      dayHdrs+buildMonthCells(endDate.year,endDate.month);
+  }
 }
 
 /* ══════════════════════════════════════════
    TIMELINE
 ══════════════════════════════════════════ */
 function renderTimeHeaders(){
-  // Show 08:00 to 19:00 as column headers (12 cols), last col ends at 20:00
-  document.getElementById('tlHours').innerHTML=
-    HOURS.slice(0,-1).map(h=>`<div class="tl-h">${pad(h)}:00</div>`).join('');
+  // Show 08:00 to 19:30 as column headers (24 slots), last slot ends at 20:00
+  const slots=HOURS.slice(0,-1);
+  document.getElementById('tlHours').innerHTML=slots.map(s=>{
+    const label=s.m===0?`<span class="tl-h-hr">${pad(s.h)}:00</span>`:`<span class="tl-h-hf">${pad(s.h)}:30</span>`;
+    return `<div class="tl-h">${label}</div>`;
+  }).join('');
 }
 
 function renderTimeline(){
@@ -850,12 +998,17 @@ function renderTimeline(){
     const eqHTML=room.equip.map(e=>`<span title="${e}">${EQI[e]||'⚙️'}</span>`).join(' ');
     const fc=FCLS[room.floor]||'f22';
 
-    // Grid cells with hour data for click-to-book
-    const cellsHTML=HOURS.slice(0,-1).map(h=>{
-      if(isPastDay){
-        return `<div class="tl-grid-cell" style="cursor:default"></div>`;
+    // Grid cells: setiap 30 menit
+    const now2=new Date();
+    const nowMins=(now2.getHours()-8)*60+now2.getMinutes();
+    const cellsHTML=HOURS.slice(0,-1).map(slot=>{
+      const slotMins=(slot.h-8)*60+slot.m;
+      const isPastSlot=(currentDateIdx===TODAY_IDX&&slotMins<nowMins)||(currentDateIdx<TODAY_IDX);
+      const timeLabel=`${pad(slot.h)}:${pad(slot.m)}`;
+      if(isPastDay||isPastSlot){
+        return `<div class="tl-grid-cell${isPastSlot?' past-slot':''}" style="cursor:default"></div>`;
       }
-      return `<div class="tl-grid-cell" data-time="${pad(h)}:00" onclick="openBookingModalAt('${room.name}','${pad(h)}:00')"></div>`;
+      return `<div class="tl-grid-cell" data-time="${timeLabel}" onclick="openBookingModalAt('${room.name}','${timeLabel}')"></div>`;
     }).join('');
 
     html+=`<div class="tl-row">
@@ -893,17 +1046,24 @@ function renderTimeline(){
     </div>`;
   });
 
-  // Now line (today only)
-  const now=new Date();
+  // Now indicator — inject as sibling of tl-body, directly into timelineWrap
+  const existingNow=document.getElementById('nowIndicatorWrap');
+  if(existingNow) existingNow.remove();
+
   if(currentDateIdx===TODAY_IDX){
+    const now=new Date();
     const mins=(now.getHours()-8)*60+now.getMinutes();
     if(mins>=0&&mins<=TOTAL_MINS){
       const lp=(mins/TOTAL_MINS)*100;
-      html+=`<div style="position:absolute;top:0;left:224px;bottom:0;pointer-events:none;z-index:45;width:calc(100% - 224px);">
-        <div class="now-line" style="left:${lp}%;position:absolute;top:0;bottom:0;">
-          <div class="now-badge-wrap">${pad(now.getHours())}:${pad(now.getMinutes())}</div>
-        </div>
-      </div>`;
+      const wrap=document.createElement('div');
+      wrap.id='nowIndicatorWrap';
+      wrap.style.cssText='position:absolute;top:30px;bottom:0;left:200px;right:0;pointer-events:none;z-index:45;';
+      wrap.innerHTML=`
+        <div style="position:absolute;top:0;bottom:0;left:${lp}%;width:0;pointer-events:none;">
+          <div class="now-pill">${pad(now.getHours())}:${pad(now.getMinutes())}</div>
+          <div class="now-line-fade"></div>
+        </div>`;
+      document.getElementById('timelineWrap').appendChild(wrap);
     }
   }
 
@@ -917,12 +1077,13 @@ function renderTimeline(){
 }
 
 function selectDate(idx){
-  // Prevent booking on past dates (but still allow viewing)
+  if(idx>MAX_BOOKING_IDX){showToast('Maksimal pemesanan 2 minggu ke depan.','warn');return;}
+  if(idx<0){return;} // no past date navigation via calendar
   currentDateIdx=idx;
-  document.getElementById('calPeriod').textContent=`${DAYS_STR[idx]}, ${DATES[idx]} April 2026`;
+  document.getElementById('calPeriod').textContent=getDateLabel(idx);
   renderMiniCal(); renderTimeline();
 }
-function changeDay(s){const nv=currentDateIdx+s;if(nv>=0&&nv<=6)selectDate(nv);}
+function changeDay(s){const nv=currentDateIdx+s;if(nv>=0&&nv<=MAX_BOOKING_IDX)selectDate(nv);}
 function setToday(){selectDate(TODAY_IDX);}
 
 /* ══════════════════════════════════════════
@@ -947,7 +1108,7 @@ function showPop(e,id){
   av.style.background=AVCOL[bk.color]||'var(--blue)';
   document.getElementById('pHdr').className=`pop-hdr ${isPending?'ph-pending':PHCLS[bk.color]||'ph-b'}`;
   document.getElementById('pRules').innerHTML=`
-    ⚡ Auto-release: ${pad(bk.sh+Math.floor((bk.sm+30)/60))}:${pad((bk.sm+30)%60)}<br>
+    ⚡ Auto-release: ${pad(bk.sh+Math.floor((bk.sm+15)/60))}:${pad((bk.sm+15)%60)}<br>
     📋 Kapasitas ruangan: maks. ${rm?.cap||'?'} orang<br>
     🛠 ${rm?.equip?.join(', ')||'-'}
   `;
@@ -1032,14 +1193,6 @@ function openBookingModal(preRoom=''){
     showToast('Tidak dapat booking tanggal yang sudah lewat.','warn');
     return;
   }
-  // Karyawan: max 1 active booking per day
-  if(currentRole==='karyawan'){
-    const myActive=BOOKINGS.filter(b=>b.userId===currentUser.id&&b.date===currentDateIdx&&(b.status==='active'||b.status==='pending'));
-    if(myActive.length>0){
-      showToast('Anda sudah memiliki booking aktif hari ini.','warn');
-      return;
-    }
-  }
   isAdminBooking=false;
   document.getElementById('bookForUserBox').style.display='none';
   document.getElementById('bModalTitle').textContent='Booking Ruangan Meeting';
@@ -1058,21 +1211,21 @@ function openAdminBookingModal(){
 
 function openBookingModalAt(roomName, startTime){
   if(currentDateIdx<TODAY_IDX){showToast('Tidak dapat booking tanggal lampau.','warn');return;}
-  if(currentRole==='karyawan'){
-    const myActive=BOOKINGS.filter(b=>b.userId===currentUser.id&&b.date===currentDateIdx&&(b.status==='active'||b.status==='pending'));
-    if(myActive.length>0){showToast('Anda sudah memiliki booking aktif hari ini.','warn');return;}
-  }
   // Calculate end time: start + 1 hour
   const sh=parseInt(startTime.split(':')[0]);
-  const endH=Math.min(sh+1,20);
-  const endTime=pad(endH)+':00';
+  const sm=parseInt(startTime.split(':')[1])||0;
+  const endMins=(sh-8)*60+sm+60;
+  const endH=Math.min(Math.floor(endMins/60)+8,20);
+  const endM=endMins%60;
+  const endTime=pad(endH)+':'+pad(endM===60?0:endM);
   isAdminBooking=false;
   document.getElementById('bookForUserBox').style.display='none';
-  document.getElementById('bModalTitle').textContent='Booking Ruangan Meeting';
-  populateBookingModal(roomName,startTime,endTime);
+  document.getElementById('bModalTitle').textContent=`Booking — ${roomName}`;
+  document.getElementById('bModalSub').textContent=`${getDateLabel(currentDateIdx)} · ${startTime} – ${endTime}`;
+  populateBookingModal(roomName,startTime,endTime,true); // true = skip sub update
 }
 
-function populateBookingModal(preRoom,startVal,endVal){
+function populateBookingModal(preRoom,startVal,endVal,skipSubUpdate){
   const sel=document.getElementById('bRoom');
   sel.innerHTML=ROOMS.map(r=>`<option value="${r.name}">${r.name} (${r.floor}, maks ${r.cap} org)</option>`).join('');
   if(preRoom) sel.value=preRoom;
@@ -1089,7 +1242,7 @@ function populateBookingModal(preRoom,startVal,endVal){
   document.getElementById('bTitle').value='';
   document.getElementById('bNote').value='';
   document.getElementById('bAttend').value='';
-  document.getElementById('bModalSub').textContent=`${DAYS_STR[currentDateIdx]}, ${DATES[currentDateIdx]} April 2026`;
+  if(!skipSubUpdate) document.getElementById('bModalSub').textContent=getDateLabel(currentDateIdx);
   document.getElementById('conflictBox').classList.remove('show');
 
   updateRoomInfo();
@@ -1104,6 +1257,14 @@ function updateRoomInfo(){
   document.getElementById('bRoomInfo').innerHTML=
     `<strong>${rm.name}</strong> — Kapasitas maks. <strong>${rm.cap} orang</strong><br>
      🏢 ${rm.floor} &nbsp;|&nbsp; 🛠 ${rm.equip.map(e=>EQI[e]+' '+e).join(', ')}`;
+  // Update modal subtitle with room name
+  const sVal=document.getElementById('bStart').value;
+  const eVal=document.getElementById('bEnd').value;
+  const ttl=document.getElementById('bModalTitle');
+  if(ttl.textContent.startsWith('Booking —')||ttl.textContent==='Booking Ruangan Meeting'){
+    ttl.textContent=`Booking — ${rName}`;
+  }
+  document.getElementById('bModalSub').textContent=`${getDateLabel(currentDateIdx)} · ${sVal} – ${eVal}`;
   validateBookingTime();
 }
 
@@ -1118,21 +1279,37 @@ function validateBookingTime(){
     cfBox.textContent=dur>180?'⚠️ Maksimal durasi booking adalah 3 jam.':'⚠️ Waktu tidak valid. Minimal 30 menit, jam selesai harus lebih dari jam mulai.';
     cfBox.classList.add('show'); btn.disabled=true; return;
   }
-  const conflict=BOOKINGS.some(b=>
+  // Cek konflik ruangan
+  const roomConflict=BOOKINGS.some(b=>
     b.roomName===rName&&b.date===currentDateIdx&&(b.status==='active'||b.status==='pending')&&
     !(e<=b.sh*60+b.sm||s>=b.eh*60+b.em)
   );
-  if(conflict){
-    cfBox.textContent='⚠️ Waktu bentrok dengan booking lain di ruangan ini. Pilih waktu lain.';
-    cfBox.classList.add('show'); btn.disabled=true;
-  } else {
-    cfBox.classList.remove('show'); btn.disabled=false;
+  if(roomConflict){
+    cfBox.textContent='⚠️ Waktu bentrok dengan booking lain di ruangan ini. Pilih waktu atau ruangan lain.';
+    cfBox.classList.add('show'); btn.disabled=true; return;
   }
+  // Cek konflik jam untuk user yang sama di ruangan BERBEDA
+  // (booking ruangan yang sama sudah di-cek oleh roomConflict di atas)
+  const targetUserId=isAdminBooking?document.getElementById('bForUser')?.value:currentUser?.id;
+  if(targetUserId){
+    const userConflict=BOOKINGS.some(b=>
+      b.userId===targetUserId&&
+      b.roomName!==rName&&  // ruangan berbeda
+      b.date===currentDateIdx&&(b.status==='active'||b.status==='pending')&&
+      !(e<=b.sh*60+b.sm||s>=b.eh*60+b.em)
+    );
+    if(userConflict){
+      cfBox.textContent='⚠️ Anda sudah memiliki booking di jam yang bertabrakan (di ruangan lain). Pilih jam yang berbeda.';
+      cfBox.classList.add('show'); btn.disabled=true; return;
+    }
+  }
+  cfBox.classList.remove('show'); btn.disabled=false;
 }
 
 function confirmBooking(){
   const title=document.getElementById('bTitle').value.trim();
   if(!title){document.getElementById('bTitle').focus();return;}
+  if(currentDateIdx>MAX_BOOKING_IDX){showToast('Maksimal pemesanan adalah 2 minggu ke depan.','warn');return;}
   const rName=document.getElementById('bRoom').value;
   const sStr=document.getElementById('bStart').value;
   const eStr=document.getElementById('bEnd').value;
@@ -1190,7 +1367,7 @@ function renderMyBooking(){
     <tr>
       <td><strong>${bk.roomName}</strong><br><span style="font-size:11px;color:var(--t3)">${ROOMS.find(r=>r.name===bk.roomName)?.floor||''}</span></td>
       <td>${bk.title}</td>
-      <td>${DAYS_STR[bk.date]}, ${DATES[bk.date]} Apr</td>
+      <td>${getDateLabel(bk.date)}</td>
       <td>${pad(bk.sh)}:${pad(bk.sm)} – ${pad(bk.eh)}:${pad(bk.em)}</td>
       <td>${bk.att} org</td>
       <td><span class="status ${bk.status==='active'?'s-active':bk.status==='pending'?'s-pending':bk.status==='done'?'s-done':'s-cancelled'}">${bk.status==='active'?'Aktif':bk.status==='pending'?'Pending':bk.status==='done'?'Selesai':'Dibatalkan'}</span></td>
@@ -1248,13 +1425,9 @@ function renderAdminRooms(){
 function renderAdminBookings(){
   const filterVal=document.getElementById('adminDateFilter').value;
   let filterIdx=TODAY_IDX;
-  if(filterVal){
-    const d=parseInt(filterVal.split('-')[2]);
-    filterIdx=d-20;
-  }
-  // show all bookings for selected date
+  if(filterVal) filterIdx=dateStrToIdx(filterVal);
   const all=BOOKINGS.filter(b=>b.date===filterIdx).sort((a,b)=>a.sh-b.sh||a.sm-b.sm);
-  const dateLabel=`${DAYS_STR[filterIdx]||''}, ${DATES[filterIdx]||''} April 2026`;
+  const dateLabel=getDateLabel(filterIdx);
   document.getElementById('adminBookTitle').textContent=`Semua Booking — ${dateLabel}`;
 
   document.getElementById('adminBookTbl').innerHTML=all.map(bk=>`
