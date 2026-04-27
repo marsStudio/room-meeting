@@ -163,16 +163,26 @@ input[type=checkbox]{accent-color:var(--blue);}
 .tl-grid-cell:hover:not(.past-slot)::before{content:attr(data-time);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;font-weight:700;color:var(--blue);white-space:nowrap;pointer-events:none;}
 .hover-hint{position:absolute;top:50%;left:8px;transform:translateY(-50%);font-size:10px;font-weight:600;color:var(--blue);opacity:0;transition:opacity .15s;pointer-events:none;white-space:nowrap;z-index:2;background:rgba(234,241,251,.85);padding:2px 8px;border-radius:10px;backdrop-filter:blur(2px);}
 .tl-lanes:hover .hover-hint{opacity:1;}
-.tl-ev{position:absolute;top:6px;bottom:6px;border-radius:var(--r1);padding:5px 8px;overflow:hidden;cursor:pointer;z-index:10;border-left:3px solid transparent;transition:all .15s;box-shadow:var(--s1);display:flex;flex-direction:column;justify-content:center;}
+.tl-ev{position:absolute;top:5px;bottom:5px;border-radius:var(--r1);padding:3px 6px;overflow:hidden;cursor:pointer;z-index:10;border-left:3px solid transparent;transition:all .15s;box-shadow:var(--s1);display:flex;flex-direction:column;justify-content:flex-start;min-width:0;}
 .tl-ev:hover{transform:translateY(-1px);box-shadow:var(--s3);z-index:20;}
 .ev-b{background:var(--blue-bg);border-left-color:var(--blue);}
 .ev-p{background:var(--purple-bg);border-left-color:var(--purple);}
 .ev-t{background:var(--teal-bg);border-left-color:var(--teal);}
 .ev-g{background:var(--green-bg);border-left-color:var(--green);}
 .ev-a{background:var(--amber-bg);border-left-color:var(--amber);}
-.ev-ttl{font-size:11px;font-weight:700;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ev-sub{font-size:10px;color:var(--t3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ev-badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;margin-top:2px;display:inline-block;}
+/* SIZE CLASSES — ditetapkan saat render berdasarkan durasi */
+/* ev-xs: <32px — hanya blok warna */
+.tl-ev.ev-xs{padding:0;border-radius:2px;}
+.tl-ev.ev-xs *{display:none!important;}
+/* ev-sm: 32–80px — hanya judul 1 baris, sembunyikan jam & badge */
+.tl-ev.ev-sm .ev-sub,.tl-ev.ev-sm .ev-badge,.tl-ev.ev-sm .ev-pending{display:none!important;}
+/* ev-md: 80–160px — judul + jam, sembunyikan badge */
+.tl-ev.ev-md .ev-badge,.tl-ev.ev-md .ev-pending{display:none!important;}
+/* ev-lg: >160px — semua tampil */
+.ev-ttl{font-size:10px;font-weight:700;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;}
+.ev-sub{font-size:9px;color:var(--t3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ev-badge{font-size:8px;font-weight:700;padding:1px 4px;border-radius:3px;margin-top:2px;display:inline-block;}
+.ev-pending{font-size:8px;display:inline-block;margin-top:2px;}
 .ev-mine{background:rgba(18,89,195,.15);color:var(--blue);}
 .ev-other{background:rgba(0,0,0,.06);color:var(--t3);}
 /* now indicator — pill di atas, garis tipis ke bawah */
@@ -344,91 +354,57 @@ tr:hover td{background:var(--surface-2);}
 /* ─── CONFIRM ROOM (karyawan) ─── */
 .confirm-room-banner{padding:10px 14px;background:var(--amber-bg);border-radius:var(--r2);font-size:12px;color:var(--t2);border-left:3px solid var(--amber);margin-bottom:12px;display:none;}
 .confirm-room-banner.show{display:block;}
-/* ─── MOBILE RESPONSIVE ─── */
 @media (max-width: 768px) {
   :root { --sb-w:0px; --nav-h:52px; }
   body { overflow:auto; }
   .screen.active { flex-direction:column; }
   .login-card { padding:28px 20px; border-radius:var(--r4); }
-  
-  /* Topnav mobile */
   .topnav { padding:0 12px; gap:6px; }
   .tn-logo-text { display:none; }
   .tn-tabs { margin-left:4px; }
   .tn-tab { padding:5px 10px; font-size:12px; }
   .btn-booking-top { padding:6px 12px; font-size:12px; }
-  .tn-uname { display:none; }
-  .tn-role-badge { display:none; }
-  .btn-logout { display:none; }
-  
-  /* App body */
+  .tn-uname,.tn-role-badge,.btn-logout { display:none; }
   .app-body { flex-direction:column; overflow:visible; height:auto; }
-  
-  /* Sidebar — collapsed to horizontal strip on mobile */
-  .sidebar { 
-    width:100%; min-width:0; border-right:none; 
-    border-bottom:1px solid var(--bd); 
-    flex-direction:row; overflow-x:auto; overflow-y:hidden;
-    flex-wrap:nowrap; flex-shrink:0; max-height:none; padding:0;
-  }
-  .mc-wrap { display:none; }
-  .sdiv { display:none; }
-  .sb-sec:first-of-type { display:none; } /* hide capacity filter on mobile */
-  .sb-sec { 
-    padding:8px 12px; display:flex; flex-direction:row; 
-    align-items:center; gap:8px; white-space:nowrap; min-width:max-content;
-  }
+  .sidebar { width:100%;min-width:0;border-right:none;border-bottom:1px solid var(--bd);flex-direction:row;overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;flex-shrink:0;max-height:none;padding:0; }
+  .mc-wrap,.sdiv { display:none; }
+  .sb-sec:first-of-type { display:none; }
+  .sb-sec { padding:8px 12px;display:flex;flex-direction:row;align-items:center;gap:8px;white-space:nowrap;min-width:max-content; }
   .sb-lbl { margin-bottom:0; }
-  .floor-rows { flex-direction:row; gap:4px; }
+  .floor-rows { flex-direction:row;gap:4px; }
   .floor-row { padding:5px 10px; }
   .floor-name { font-size:12px; }
-  .floor-ct { display:none; }
-  .pip { display:none; }
-  
-  /* Calendar area */
+  .floor-ct,.pip { display:none; }
   .cal-area { overflow:hidden; }
-  .cal-bar { padding:8px 10px; flex-wrap:wrap; gap:6px; }
+  .cal-bar { padding:8px 10px;flex-wrap:wrap;gap:6px; }
   .cal-period { font-size:13px; }
   .legend { display:none; }
-  
-  /* Timeline — horizontal scroll */
-  .timeline-wrap { overflow:auto; -webkit-overflow-scrolling:touch; }
-  .tl-corner { width:120px; min-width:120px; padding:6px 8px; font-size:9px; }
-  .tl-room { width:120px; min-width:120px; padding:8px 10px; }
-  .tl-rname { font-size:12px; }
-  .tl-rmeta { display:none; }
-  .eq-icons { display:none; }
-  .cap-badge { display:none; }
-  .tl-row { min-height:52px; }
+  .timeline-wrap { overflow:auto;-webkit-overflow-scrolling:touch; }
+  /* Room column lebih sempit di mobile */
+  .tl-corner { width:90px;min-width:90px;padding:6px 8px;font-size:9px; }
+  .tl-room { width:90px;min-width:90px;padding:6px 8px; }
+  .tl-rname { font-size:11px; }
+  /* Sembunyikan detail room di mobile — hanya nama + dot */
+  .tl-rmeta,.eq-icons,.cap-badge { display:none; }
+  .tl-row { min-height:44px; }
   .hover-hint { display:none; }
-  
-  /* Modal */
-  .overlay { padding:0; align-items:flex-end; }
-  .modal { max-width:100%; border-radius:var(--r5) var(--r5) 0 0; max-height:88vh; }
-  .confirm-dlg { border-radius:var(--r5) var(--r5) 0 0; }
-  .profile-modal { border-radius:var(--r5) var(--r5) 0 0; }
-  
-  /* Panels */
+  /* Event blocks di mobile: row lebih compact */
+  .tl-ev { top:4px;bottom:4px;padding:2px 5px; }
+  .overlay { padding:0;align-items:flex-end; }
+  .modal { max-width:100%;border-radius:var(--r5) var(--r5) 0 0;max-height:88vh; }
+  .confirm-dlg,.profile-modal { border-radius:var(--r5) var(--r5) 0 0; }
   .panel-page { padding:14px; }
   .summary-cards { gap:8px; }
-  .sum-card { min-width:100px; padding:12px; }
+  .sum-card { min-width:100px;padding:12px; }
   .sum-card-val { font-size:20px; }
   .tbl-wrap { overflow-x:auto; }
   table { min-width:560px; }
-  
-  /* Popover */
-  .pop { width:calc(100vw - 24px); left:12px !important; top:auto !important; bottom:80px; }
-  
-  /* Toast */
-  .toast { bottom:16px; max-width:calc(100vw - 32px); text-align:center; }
-  
-  /* Mini cal nav buttons visible */
-  .mc-nav { display:flex; }
+  .pop { width:calc(100vw - 24px);left:12px !important;top:auto !important;bottom:80px; }
+  .toast { bottom:16px;max-width:calc(100vw - 32px);text-align:center; }
 }
 @media (max-width:480px) {
   .tn-tab:not(.on) { display:none; }
   .tn-tab.on { display:flex; }
-  .cal-navs .cnbtn:first-child { display:none; } /* hide prev on very small */
 }
 </style>
 <body>
@@ -1033,9 +1009,15 @@ function renderTimeline(){
           const isMine=ev.userId===currentUser?.id;
           const ecls=ECLS[ev.color]||'ev-b';
           const isPending=ev.status==='pending';
+          // Hitung estimasi pixel lebar event berdasarkan viewport aktual
+          const roomColW=window.innerWidth<=768?90:200;
+          const LANE_PX=Math.max(24*44, window.innerWidth - roomColW - 20);
+          const estPx=(wp/100)*LANE_PX;
+          // Size class: xs=hanya warna, sm=judul saja, md=judul+jam, lg=semua
+          const szCls=estPx<28?'ev-xs':estPx<72?'ev-sm':estPx<150?'ev-md':'ev-lg';
           const badge=isMine?'<span class="ev-badge ev-mine">Saya</span>':'<span class="ev-badge ev-other">'+getUserName(ev.userId).split(' ')[0]+'</span>';
-          const pendingMark=isPending?'<span style="font-size:9px;color:var(--amber);font-weight:700">⏳ Pending</span>':'';
-          return `<div class="tl-ev ${ecls}" style="left:${lp}%;width:${wp}%;${isPending?'opacity:.75;border-style:dashed;':''}"
+          const pendingMark=isPending?'<span class="ev-pending">⏳</span>':'';
+          return `<div class="tl-ev ${ecls} ${szCls}" style="left:${lp}%;width:${wp}%;${isPending?'opacity:.8;border-style:dashed;':''}"
             onclick="event.stopPropagation();showPop(event,${ev.id})">
             <div class="ev-ttl">${ev.title}</div>
             <div class="ev-sub">${pad(ev.sh)}:${pad(ev.sm)}–${pad(ev.eh)}:${pad(ev.em)}</div>
